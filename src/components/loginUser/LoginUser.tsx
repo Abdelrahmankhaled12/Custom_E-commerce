@@ -10,14 +10,14 @@ import icon from '../../assets/google.png';
 
 // Firebase configuration (securely load credentials from environment variables)
 const firebaseConfig = {
-  apiKey: "AIzaSyBZXyp48UgtFbjpsTS_UX4nhI78r7VXuzk",
-  authDomain: "custom-web-513b1.firebaseapp.com",
-  databaseURL: "https://custom-web-513b1-default-rtdb.firebaseio.com",
-  projectId: "custom-web-513b1",
-  storageBucket: "custom-web-513b1.firebasestorage.app",
-  messagingSenderId: "151002132153",
-  appId: "1:151002132153:web:8ecc3104c99a3d6fab7568",
-  measurementId: "G-6QNL9T7MP4"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
