@@ -1,0 +1,15 @@
+@import '../../../mixins.scss';
+
+.bodyCheckout {
+    padding: 50px 0px;
+    .content {
+        margin: auto;
+        background: #ededed2e;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #00000024;
+        @include md {
+            max-width: 900px;
+        }
+    }
+}

@@ -1,0 +1,59 @@
+@import '../../mixins.scss';
+
+footer {
+    background-color: #000000e8;
+    padding: 20px 0px 13px;
+
+    .flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #ffffff;
+        flex-direction: column;
+        gap: 10px;
+
+        @include md {
+            flex-direction: row;
+        }
+
+        h3 {
+            font-weight: 600;
+            font-size: 15px;
+            order: 2;
+
+            @include sm {
+                gap: 25px;
+                order: 1;
+            }
+            span {
+                color: var(--primary);
+            }
+        }
+
+        .links {
+            display: flex;
+            gap: 15px;
+            order: 1;
+
+            @include sm {
+                gap: 25px;
+                order: 2;
+            }
+
+            a {
+                display: block;
+                color: #ffffff;
+                font-size: 13px;
+                transition: 0.5s;
+
+                @include sm {
+                    font-size: 15px;
+                }
+
+                &:hover {
+                    color: var(--primary);
+                }
+            }
+        }
+    }
+}

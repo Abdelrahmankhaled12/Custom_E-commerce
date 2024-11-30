@@ -1,0 +1,65 @@
+@import "../../../mixins.scss";
+
+.faqs {
+    padding: 70px 0px;
+    background-color: #F5F5FD;
+
+    h1 {
+        color: var(--primary);
+        text-align: center;
+        font-size: 22px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        @include sm {
+            font-size: 35px;
+
+        }
+    }
+
+    .accordion {
+        background-color: #FFFFFF;
+        color: #000;
+        cursor: pointer;
+        padding: 20px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        font-size: 18px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+
+        &:hover,
+        &.active {
+            background-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        &:after {
+            content: '\02795';
+            font-size: 13px;
+            color: #777;
+            float: right;
+            margin-left: 5px;
+        }
+
+        &.active:after {
+            content: "\2796";
+        }
+    }
+
+    .panel {
+        padding: 0px 18px;
+        background-color: #FFFFFF;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+
+        p {
+            color: #000;
+            font-size: 16px;
+        }
+    }
+}
+

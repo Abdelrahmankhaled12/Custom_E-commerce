@@ -1,0 +1,45 @@
+@import '../../../../mixins.scss';
+
+
+.orderSummary {
+  width: 100%;
+
+  h1 {
+    color: var(--primary);
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    thead {
+      tr {
+        th {
+          font-weight: 700 !important;
+          font-size: 18px;
+
+        }
+      }
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 5px 10px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    td strong {
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+@import '../../../mixins.scss';
+
+.contact {
+    padding: 70px 0px 10px;
+    overflow: hidden;
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        @include sm {
+            gap: 70px;
+        }
+        @include md {
+            grid-template-columns: 1fr 1fr;
+        }
+        .partOne {
+            h1 {
+                color: #171721;
+                font-size: 30px;
+
+                @include sm {
+                    font-size: 40px;
+                }
+            }
+
+            p {
+                color: #6F818C;
+                font-size: 16px;
+                margin: 15px 0px 0px;
+                line-height: 1.5;
+            }
+
+            .social {
+                margin: 20px 0px;
+
+                @include sm {
+                    margin: 40px 0px 60px;
+                }
+
+                .box {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin: 10px 0px;
+
+                    @include sm {
+                        margin: 20px 0px;
+                    }
+
+                    p {
+                        color: var(--grey-color);
+                        font-size: 16px;
+                        margin: 0;
+                        font-weight: 500;
+                    }
+
+                    svg {
+                        color: var(--primary);
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

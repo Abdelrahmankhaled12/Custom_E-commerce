@@ -1,0 +1,139 @@
+@import '../../../mixins.scss';
+
+.testimonials {
+    padding: 60px 0px;
+    overflow: hidden;
+
+    .container {
+        .title {
+            text-align: center;
+            line-height: 1.5;
+
+            h1 {
+                color: var(--primary);
+                font-size: 30px;
+                text-transform: initial;
+                @include sm {
+                    font-size: 45px;
+                }
+            }
+
+            p {
+                color: var(--grey-color);
+                font-size: 20px;
+            }
+        }
+
+        .carouselItems {
+            display: flex;
+            gap: 20px;
+            overflow-y: hidden;
+            width: 100%;
+            max-width: 1400px;
+            padding: 12px 20px;
+            margin-right: auto;
+            overflow-x: auto;
+            margin-top: 10px;
+
+            &::-webkit-scrollbar {
+                height: 0px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: #f9f9f9;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--secondary);
+                border-radius: 30px;
+            }
+
+            .carouselItem {
+                cursor: pointer;
+                flex-shrink: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border-radius: 20px;
+
+                @include sm {
+                    width: calc((97.5% - 15px)/ 2);
+                }
+
+                @include md {
+                    width: calc((97.5% - 15px)/ 3);
+                }
+
+                border: 1px solid #00000025;
+                padding: 25px 20px;
+                background-color: #ffffff;
+
+                .body {
+                    margin-bottom: 20px;
+
+                    p {
+                        line-height: 1.7;
+                        color: #000000;
+                        font-size: 18px;
+                    }
+                }
+
+                .footer {
+                    display: flex;
+                    align-items: center;
+                    border-top: 1px solid #0000001a;
+                    padding-top: 20px;
+
+                    .image {
+                        img {
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .text {
+                        line-height: 1.4;
+                        margin-left: 15px;
+
+                        h2 {
+                            color: #000000;
+                            font-weight: 600;
+                            font-size: 21px;
+                        }
+
+                        p {
+                            color: var(--grey-color);
+                            font-size: 15px;
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+.indicators {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.indicators .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(227, 226, 231, 1);
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.indicators .dot.active {
+    width: 36px;
+    border-radius: 12px;
+    background-color: var(--primary);
+}

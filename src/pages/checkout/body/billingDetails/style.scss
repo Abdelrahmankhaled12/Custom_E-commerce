@@ -1,0 +1,74 @@
+.billingDetails {
+    h1 {
+        color: var(--primary);
+        font-size: 30px;
+    }
+
+    form {
+        .form-group {
+            margin-bottom: 10px;
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 600;
+            }
+
+            input,
+            select {
+                width: 100%;
+                padding: 5px 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                outline: none;
+                font-size: 16px;
+            }
+        }
+
+        .form-group-flex {
+            display: flex;
+            align-items: end;
+            margin-bottom: 15px;
+        }
+
+        .apply-btn {
+            width: auto;
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 150px;
+            font-size: 16px;
+            margin-left: 5px;
+            font-weight: 600;
+            border: 1px solid var(--primary);
+            transition: 0.5s;
+            &:hover {
+                background-color: #ffffff;
+                color: var(--primary);
+            }
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: 0.5s;
+            border: 1px solid var(--primary);
+            margin-top: 12px;
+            &:hover {
+                background-color: #ffffff;
+                color: var(--primary);
+            }
+        }
+    }
+}

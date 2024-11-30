@@ -1,0 +1,129 @@
+@import '../../../mixins.scss';
+
+.products {
+    padding: 60px 0px;
+    background-color: #F5F5FD;
+
+    .title {
+        text-align: center;
+
+        h2 {
+            color: var(--primary);
+            font-size: 40px;
+        }
+    }
+
+    .boxes {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 20px;
+
+        @include sm {
+            grid-template-columns: 1fr 1fr;
+
+        }
+
+        @include md {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .box {
+            border: 1px solid #0000;
+            background-color: #ffffff;
+            padding: 20px 15px 5px;
+            border-radius: 20px;
+
+            h3 {
+                color: #000000;
+                font-size: 25px;
+            }
+
+            p {
+                color: var(--grey-color);
+                line-height: 1.6;
+                font-size: 15px;
+            }
+
+            h5 {
+                font-size: 22px;
+                color: #000000;
+                margin-top: 10px;
+            }
+
+            .counter {
+                display: flex;
+                align-items: center;
+
+                button {
+                    width: 35px;
+                    height: 35px;
+                    border: 1px solid #77777734;
+                    background-color: transparent;
+                    transition: 0.5s;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: var(--primary);
+                    }
+                }
+
+                p {
+                    width: 35px;
+                    height: 35px;
+                    border: 1px solid #77777734;
+                    font-size: 22px;
+                    color: #333;
+                    text-align: center;
+                    font-weight: 600;
+                }
+
+                .getNow {
+                    display: block;
+                    width: 80%;
+                    padding: 5px;
+                    color: #ffffff;
+                    background-color: var(--primary);
+                    font-size: 20px;
+                    border: 1px solid var(--primary);
+                    border-radius: 12px;
+                    transition: 0.5s;
+                    margin: 20px auto;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #ffffff;
+                        color: var(--primary);
+                    }
+                }
+            }
+
+
+            span {
+                display: block;
+                color: var(--grey-color);
+                font-size: 20px;
+                margin-top: 10px;
+            }
+
+            .getNow {
+                display: block;
+                width: 80%;
+                padding: 5px;
+                color: #ffffff;
+                background-color: var(--primary);
+                font-size: 20px;
+                border: 1px solid var(--primary);
+                border-radius: 12px;
+                transition: 0.5s;
+                margin: 10px auto;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #ffffff;
+                    color: var(--primary);
+                }
+            }
+        }
+    }
+}

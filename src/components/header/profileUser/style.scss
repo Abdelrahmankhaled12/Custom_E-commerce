@@ -1,0 +1,49 @@
+.profileUser {
+    position: relative;
+    .box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        .image {
+            img {
+                width: 50px;
+                border-radius: 50%;
+                position:relative;
+                top: 4px;
+            }
+        }
+        ul {
+            list-style: none;
+            position: absolute;
+            bottom: -140px;
+            left: -100%;
+            width: 150px;
+            background-color: #ffffff;
+            padding: 20px 20px;
+            border-radius: 20px;
+            transition: 0.5s;
+            li {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #00000023;
+                font-weight: 600;
+                transition: 0.5s;
+                &:last-of-type {
+                    padding-bottom: 0px;
+                    border-bottom: none;
+                    margin-top: 10px;
+                }
+                svg {
+                    color: var(--primary);
+                }
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+
+        }
+    }
+}
