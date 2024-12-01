@@ -4,7 +4,7 @@ import 'aos/dist/aos.css'; // AOS library styles
 import { BrowserRouter, Route, Routes } from 'react-router-dom'; // React Router for navigation
 
 // Importing page components
-import { Checkout, Home, NotFoundPage , Profile } from './pages';
+import { Checkout, Home, NotFoundPage , Profile, Signup } from './pages';
 
 /**
  * App Component
@@ -34,6 +34,9 @@ function App() {
 
         {/* Checkout Page */}
         <Route path="/checkout" element={<Checkout />} />
+
+        {/* Signup Page */}
+        <Route path="/signup" element={<Signup />} />
 
         {/* Catch-All for 404 Pages */}
         <Route path="/*" element={<NotFoundPage />} />

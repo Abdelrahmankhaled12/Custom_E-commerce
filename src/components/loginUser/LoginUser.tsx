@@ -1,93 +1,92 @@
 import React, { useState } from "react";
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
-import { setLoginStatus, setUserData } from "../../store/login";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import './style.scss';
 import icon from '../../assets/google.png';
+import { AppDispatch } from "../../store";
+import { setLoginStatus } from "../../store/login";
+import { loginAPi, loginGoogle } from "../../utils/login";
 
 // Firebase configuration (securely load credentials from environment variables)
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-};
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
 interface LoginUserProps {
   isOpen: boolean;
   closeModel: () => void;
+  nav: string;
 }
 
-const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel }) => {
-  const [email, setEmail] = useState<string>(''); // Email input
-  const [password, setPassword] = useState<string>(''); // Password input
+const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
+  const [email, setEmail] = useState<string>(''); // Email input state
+  const [password, setPassword] = useState<string>(''); // Password input state
   const [error, setError] = useState<string | null>(null); // Error message state
+
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  // Handle Sign-Up
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  /**
+   * Handles form submission for user login
+   */
+  
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null); // Reset error state
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("Account created successfully!", userCredential.user);
-      dispatch(setLoginStatus());
-      closeModel();
-      navigate("/checkout");
+      const response = await loginAPi({ email, password });
+
+      if (response.status === 200) {
+        console.log("Login successful!", response);
+        dispatch(setLoginStatus(response.data));
+        closeModel();
+        navigate(nav);
+      } else {
+        setError(response.message || "Login failed. Please try again.");
+      }
     } catch (err: any) {
-      console.error("Error during signup:", err.message);
-      setError(err.message); // Set error message for user feedback
+      console.error("Error during login:", err.message);
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
-  // Handle Google Sign-In
+  /**
+   * Handles Google Sign-In
+   */
   const signInWithGoogle = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const userDetails = {
-        id: user.providerData[0]?.uid || '',
-        email: user.email,
-        name: user.displayName,
-        photo: user.photoURL
-      };
-      dispatch(setUserData(userDetails));
-      dispatch(setLoginStatus());
-      closeModel();
-      navigate("/checkout");
-    } catch (error: any) {
-      console.error("Error during Google sign-in:", error.message);
-      setError("Failed to sign in with Google. Please try again.");
+      const response = await loginGoogle();
+      if (response) {
+        window.location.href = response?.url; // Redirect to Google authentication
+      } else {
+        setError("Failed to initiate Google Sign-In. Please try again.");
+      }
+    } catch (err: any) {
+      setError("An error occurred during Google Sign-In. Please try again.");
     }
   };
 
   return (
     <div className={isOpen ? "loginUser" : "loginUser hide"}>
-      <div className="closeModel" onClick={() => { closeModel(); setEmail(""); setPassword(""); setError("") }}></div>
+      {/* Overlay for closing the modal */}
+      <div
+        className="closeModel"
+        onClick={() => {
+          closeModel();
+          setEmail('');
+          setPassword('');
+          setError(null);
+        }}
+      ></div>
+
       <div>
         <div className="content">
-          <form onSubmit={handleSignUp}>
-            {/* Email Input */}
+          {/* Login Form */}
+          <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <input
                 type="email"
                 id="email"
-                name="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -96,13 +95,11 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel }) => {
               />
             </div>
 
-            {/* Password Input */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
-                name="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -110,19 +107,27 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel }) => {
                 aria-required="true"
               />
             </div>
-            {/* Display Error Message */}
+
+            {/* Error Message */}
             {error && <p className="error-message">{error}</p>}
 
-            {/* Submit Button */}
             <button type="submit" className="btn">
-              Sign Up
+              Login
             </button>
           </form>
 
-          {/* Google Sign-In */}
+          {/* Sign-Up Link */}
+          <p className="account">
+            Don't have an account?{" "}
+            <span onClick={() => navigate("/signup")}>Sign up</span>
+          </p>
+
+          <div className="or">Or</div>
+
+          {/* Google Sign-In Button */}
           <button type="button" className="signGoogle" onClick={signInWithGoogle}>
             <img src={icon} alt="Google Logo" />
-            <p>Sign in with Google</p>
+            <p>Login with Google</p>
           </button>
         </div>
       </div>

@@ -1,6 +1,21 @@
-import './style.scss'
+import './style.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
-const OrderSummary = () => {
+interface Package {
+    name: string;
+    description: string;
+    price_usd: number;
+    price_inr?: number;
+}
+
+const OrderSummary: React.FC = () => {
+    const packagee = useSelector((state: RootState) => state.packagee?.package) as Package | null;
+
+    // Calculate GST (18%) dynamically
+    const gst = packagee?.price_usd ? +(packagee.price_usd * 0.18).toFixed(2) : 0;
+    const totalPrice = packagee?.price_usd ? +(packagee.price_usd + gst).toFixed(2) : 0;
+
     return (
         <div className="orderSummary">
             <h1>Order Summary</h1>
@@ -13,21 +28,24 @@ const OrderSummary = () => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Beginner Package (3 Interactions)</td>
-                        <td>$12.00</td>
+                        <td>
+                            <p>{packagee?.name || 'No package selected'}</p>
+                            <p>{packagee?.description || 'Please select a package to view details.'}</p>
+                        </td>
+                        <td>${packagee?.price_usd?.toFixed(2) || '0.00'}</td>
                     </tr>
                     <tr>
                         <td>GST (18%)</td>
-                        <td>$2.16</td>
+                        <td>${gst.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td><strong>Total Price</strong></td>
-                        <td><strong>$14.16</strong></td>
+                        <td><strong>${totalPrice.toFixed(2)}</strong></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default OrderSummary
+export default OrderSummary;

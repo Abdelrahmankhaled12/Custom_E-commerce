@@ -81,6 +81,47 @@
                 }
             }
         }
+        .account {
+            text-align: center;
+            margin: 20px 0px 0px;
+            font-size: 18px;
+            color: #000;
+            span {
+                color: var(--primary);
+                font-weight: 600;
+                cursor: pointer;
+            }
+        }
+
+        .or {
+            text-align: center;
+            margin: 5px 0px;
+            font-weight: 600;
+            color: #777;
+            position: relative;
+            font-size: 19px;
+            &::before {
+                position: absolute;
+                content: "";
+                width: 46%;
+                background-color: #0000004a;
+                height:1px;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+            }
+            &::after {
+                position: absolute;
+                content: "";
+                width: 46%;
+                background-color: #0000004a;
+                height:1px;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
+            }
+        }
+
 
         .signGoogle {
             display: flex;
@@ -88,13 +129,13 @@
             align-items: center;
             background-color: transparent;
             width: 100%;
-            border-radius: 25px;
+            border-radius: 8px;
             border: 1px solid #0000003f;
             padding: 10px 0px;
             font-size: 20px;
             color: var(--primary);
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 10px;
             gap: 10px;
             cursor: pointer;
             transition: 0.5s;
@@ -105,6 +146,7 @@
                 transform: scale(1.05);
             }
         }
+
         .error-message {
             color: red;
             font-size: 14px;

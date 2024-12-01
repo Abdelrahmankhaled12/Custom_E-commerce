@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './style.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../store';
 import { LoginUser } from '../../../components';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, get } from 'firebase/database';
+import { setPackage } from '../../../store/package';
 
-// Firebase configuration (securely use environment variables)
+// Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -25,13 +24,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+interface ProductData {
+  name: string;
+  description: string;
+  interactions_price_combos: { number: number; price_inr: number; price_usd: number }[];
+}
+
 const Products: React.FC = () => {
   const [counters, setCounters] = useState<number[]>([]); // State for product counters
-  const [data, setData] = useState<Record<string, any> | null>(null); // State for product data
+  const [data, setData] = useState<Record<string, ProductData> | null>(null); // State for product data
   const [isOpenLogin, setIsOpenLogin] = useState(false);
 
   const navigate = useNavigate();
-  const login = useSelector((state: RootState) => state.login); // Get login state from Redux
+  const dispatch: AppDispatch = useDispatch();
+  const login = useSelector((state: RootState) => state.login); // Login state from Redux
 
   // Fetch product data and initialize counters
   useEffect(() => {
@@ -41,7 +47,7 @@ const Products: React.FC = () => {
         if (snapshot.exists()) {
           const products = snapshot.val();
           setData(products);
-          setCounters(Array(Object.keys(products).length).fill(1)); // Initialize all counters to 1
+          setCounters(Array(Object.keys(products).length).fill(0)); // Initialize counters to 0
         } else {
           console.log('No data available');
         }
@@ -53,27 +59,31 @@ const Products: React.FC = () => {
     fetchData();
   }, []);
 
-  // Handle counter changes
-  const changeCounter = (action: string, index: number) => {
-    setCounters((prevCounters) => {
-      const updatedCounters = [...prevCounters];
-      if (action === 'minus' && updatedCounters[index] > 1) {
-        updatedCounters[index] -= 1; // Decrease the counter
-      }
-      if (action === 'plus') {
-        updatedCounters[index] += 1; // Increase the counter
-      }
-      return updatedCounters;
-    });
-  };
-
   // Handle "Get Now" button click
-  const submitGetNow = () => {
+  const submitGetNow = (product: ProductData, comboIndex: number) => {
+    const selectedCombo = product.interactions_price_combos[comboIndex];
+    dispatch(
+      setPackage({
+        name: product.name,
+        description: product.description,
+        price_inr: selectedCombo?.price_inr || 0,
+        price_usd: selectedCombo?.price_usd || 0,
+      })
+    );
+
     if (!login.loginStatus) {
-      setIsOpenLogin(true); // Show login modal if user is not logged in
+      setIsOpenLogin(true); // Show login modal if not logged in
     } else {
       navigate('/checkout'); // Navigate to checkout if logged in
     }
+  };
+
+  // Handle counter changes
+  const handleCounterChange = (index: number, value: string) => {
+    const selectedValue = parseInt(value, 10);
+    setCounters((prevCounters) =>
+      prevCounters.map((item, idx) => (idx === index ? selectedValue : item))
+    );
   };
 
   return (
@@ -86,42 +96,47 @@ const Products: React.FC = () => {
             </div>
 
             <div className="boxes">
-              {Object.keys(data).map((level, index) => (
-                <div
-                  className="box"
-                  key={level}
-                  data-aos="fade-up"
-                  data-aos-delay={(index + 1) * 100}
-                  data-aos-duration="800"
-                >
-                  <h3>{data[level]?.name}</h3>
-                  <p>{data[level]?.description}</p>
-                  <h5>Get Inter</h5>
+              {Object.keys(data).map((level, index) => {
+                const product = data[level];
+                const selectedCombo = product.interactions_price_combos[counters[index]];
 
-                  <div className="counter">
-                    <button
-                      onClick={() => changeCounter('minus', index)}
-                      disabled={counters[index] === 1}
-                      style={counters[index] === 1 ? { cursor: 'not-allowed' } : { cursor: 'pointer' }}
-                      aria-label="Decrease quantity"
+                return (
+                  <div
+                    className="box"
+                    key={level}
+                    data-aos="fade-up"
+                    data-aos-delay={(index + 1) * 100}
+                    data-aos-duration="800"
+                  >
+                    <h3>{product.name}</h3>
+                    <p>{product.description}</p>
+                    <h5>Get Interactions</h5>
+
+                    {/* Dropdown for selecting combo */}
+                    <select
+                      value={counters[index]}
+                      onChange={(e) => handleCounterChange(index, e.target.value)}
+                      aria-label={`Select interactions for ${product.name}`}
                     >
-                      <FontAwesomeIcon icon={faMinus} />
-                    </button>
-                    <p>{counters[index]}</p>
+                      {product.interactions_price_combos.map((combo, comboIndex) => (
+                        <option key={comboIndex} value={comboIndex}>
+                          {combo.number}
+                        </option>
+                      ))}
+                    </select>
+
+                    <span>For Rs. {selectedCombo?.price_inr || 0}</span>
+                    <span>For USD. {selectedCombo?.price_usd || 0}</span>
+
                     <button
-                      onClick={() => changeCounter('plus', index)}
-                      aria-label="Increase quantity"
+                      onClick={() => submitGetNow(product, counters[index])}
+                      className="getNow"
                     >
-                      <FontAwesomeIcon icon={faPlus} />
+                      Get Now
                     </button>
                   </div>
-
-                  <span>For Rs. 1000</span>
-                  <button onClick={submitGetNow} className="getNow">
-                    Get Now
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -130,7 +145,7 @@ const Products: React.FC = () => {
       )}
 
       {/* Login Modal */}
-      <LoginUser isOpen={isOpenLogin} closeModel={() => setIsOpenLogin(false)} />
+      <LoginUser isOpen={isOpenLogin} closeModel={() => setIsOpenLogin(false)} nav="checkout" />
     </>
   );
 };
