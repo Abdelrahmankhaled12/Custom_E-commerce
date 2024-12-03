@@ -27,7 +27,7 @@ const ProfileUser: React.FC = () => {
 
     // Handle sign out (reload page for now)
     const signOut = () => {
-        window.location.reload();
+        window.location.href = "https://testworld.online/";
         setIsOpen(false);
     };
 

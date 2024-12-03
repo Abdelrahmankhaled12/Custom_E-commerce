@@ -1,5 +1,3 @@
-"use client"
-
 import './style.scss'; // Importing style file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon from FontAwesome library
 import { faAnglesUp } from '@fortawesome/free-solid-svg-icons'; // Importing faAnglesUp icon from FontAwesome library

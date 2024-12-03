@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import './style.scss';
 import icon from '../../assets/google.png';
 import { AppDispatch } from "../../store";
-import { setLoginStatus } from "../../store/login";
-import { loginAPi, loginGoogle } from "../../utils/login";
+import { setLoginStatus, setUserData } from "../../store/login";
+import { loginAPi, loginGoogle } from "../../utils/index";
 
 // Firebase configuration (securely load credentials from environment variables)
 
@@ -37,7 +37,8 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
 
       if (response.status === 200) {
         console.log("Login successful!", response);
-        dispatch(setLoginStatus(response.data));
+        dispatch(setLoginStatus());
+        dispatch(setUserData(response.data));
         closeModel();
         navigate(nav);
       } else {

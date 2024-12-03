@@ -7,7 +7,7 @@ import { fa1, fa2, fa3, faEnvelope, faLock, faUser } from '@fortawesome/free-sol
 import { Animation, Effect, LoginUser } from '../../components';
 import icon from '../../assets/google.png';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../../utils/register';
+import { loginGoogle, register } from '../../utils/index';
 
 const Signup: React.FC = () => {
     const [firstName, setFirstName] = useState<string>('');
@@ -62,9 +62,17 @@ const Signup: React.FC = () => {
         }, 1500);
     };
 
-    const handleGoogleLogin = () => {
-        console.log('Google login triggered');
-        // Add Google login logic here
+    const handleGoogleLogin = async () => {
+        try {
+            const response = await loginGoogle();
+            if (response) {
+                window.location.href = response?.url; // Redirect to Google authentication
+            } else {
+                setError("Failed to initiate Google Sign-In. Please try again.");
+            }
+        } catch (err: any) {
+            setError("An error occurred during Google Sign-In. Please try again.");
+        }
     };
 
     return (

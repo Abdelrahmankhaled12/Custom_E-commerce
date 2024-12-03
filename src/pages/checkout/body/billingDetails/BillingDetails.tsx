@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; // Explicit React import
-import { PayMent } from '../../../../utils/pay'; // Payment utility function
+import { PayMent } from '../../../../utils/index'; // Payment utility function
 import CountryInput from './CountryInput'; // Country dropdown component
 import PhoneNumberInput from './PhoneNumberInput'; // Phone number input component
 import './style.scss'; // SCSS file for styling
