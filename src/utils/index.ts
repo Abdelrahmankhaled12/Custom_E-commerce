@@ -70,6 +70,7 @@ export const loginGoogle = async (): Promise<LoginGoogleResponse> => {
 
 interface PaymentData {
     phone: string; // Add more fields if needed
+    amount: string; // Add more fields if needed
 }
 
 interface PaymentResponse {
@@ -77,10 +78,10 @@ interface PaymentResponse {
     [key: string]: any; // Replace with specific keys if the response structure is known
 }
 
-export const PayMent = async (data: PaymentData): Promise<PaymentResponse> => {
+export const PayMentPhone  = async (data: PaymentData): Promise<PaymentResponse> => {
     return new Promise((resolve, reject) => {
         const formData = new FormData();
-        formData.append('amount', "100");
+        formData.append('amount', data.amount);
         formData.append('mobileNumber', data.phone);
 
         fetch(URL_API + "/public/api/pay", {
@@ -105,6 +106,33 @@ export const PayMent = async (data: PaymentData): Promise<PaymentResponse> => {
 // =========================================================================================
 // =========================================================================================
 
+export const PayMentPaypal = async (data: PaymentData): Promise<PaymentResponse> => {
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('amount', data.amount);
+        formData.append('mobileNumber', data.phone);
+
+        fetch(URL_API + "/public/api/paypal/pay", {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((jsonData: PaymentResponse) => {
+                resolve(jsonData);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
+
+// =========================================================================================
+// =========================================================================================
 interface PaymentDataRegister {
     firstName: string; // Add more fields if needed
     lastName: string; // Add more fields if needed
@@ -168,6 +196,37 @@ export const userData = async (data: UserData): Promise<PaymentResponseUserData>
         }
 
         const jsonData: PaymentResponseUserData = await response.json();
+        return jsonData;
+    } catch (error: any) {
+        console.error("Error in loginGoogle:", error.message);
+        throw new Error("Failed to initiate Google Sign-In. Please try again.");
+    }
+};
+
+// =========================================================================================
+// =========================================================================================
+
+interface DiscountData {
+    discount: string;
+}
+
+interface ResponseDiscount {
+    message: string;
+    status: number;
+    data: any;
+}
+
+export const discountApi = async (data: DiscountData): Promise<ResponseDiscount> => {
+    try {
+        const response = await fetch(URL_API + `/public/api/discount/${data.discount}`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const jsonData: ResponseDiscount = await response.json();
         return jsonData;
     } catch (error: any) {
         console.error("Error in loginGoogle:", error.message);

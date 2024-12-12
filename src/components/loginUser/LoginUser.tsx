@@ -36,7 +36,6 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
       const response = await loginAPi({ email, password });
 
       if (response.status === 200) {
-        console.log("Login successful!", response);
         dispatch(setLoginStatus());
         dispatch(setUserData(response.data));
         closeModel();

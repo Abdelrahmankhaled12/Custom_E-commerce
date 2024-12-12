@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the state type
 interface ReservationsState {
-    loginStatus: Boolean; // You can change the array type based on your data
-    userData: any; // You can change the array type based on your data
+    loginStatus: Boolean; 
+    userData: any; 
 }
 
 // Initial state

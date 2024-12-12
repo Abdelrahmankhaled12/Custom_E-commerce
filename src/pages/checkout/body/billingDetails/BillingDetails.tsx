@@ -1,8 +1,11 @@
 import React, { useState } from 'react'; // Explicit React import
-import { PayMent } from '../../../../utils/index'; // Payment utility function
+import { PayMentPaypal, PayMentPhone } from '../../../../utils/index'; // Payment utility function
 import CountryInput from './CountryInput'; // Country dropdown component
 import PhoneNumberInput from './PhoneNumberInput'; // Phone number input component
 import './style.scss'; // SCSS file for styling
+import Discount from './Discount';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 /**
  * BillingDetails Component
@@ -13,45 +16,55 @@ const BillingDetails: React.FC = () => {
     const [name, setName] = useState<string>(''); // Full name
     const [email, setEmail] = useState<string>(''); // Email address
     const [phone, setPhone] = useState<string | undefined>(''); // Allow undefined
-    const [country, setCountry] = useState<string>(''); // Selected country
-    const [discount, setDiscount] = useState<string>(''); // Discount code (optional)
+    const [country, setCountry] = useState<string>('india'); // Selected country
 
     /**
      * Handles the payment submission process.
      * Opens a new tab with the payment URL received from the API response.
      */
+
+
+    const packagee = useSelector((state: RootState) => state.packagee?.package);
+    const discount = useSelector((state: RootState) => state.discount); // Access discount state from Redux
+
     const submit = async () => {
-        if (phone) {
-            try {
-                const response = await PayMent({ phone });
-                window.open(response.data.url, '_blank'); // Open the payment link in a new tab
-            } catch (error) {
-                console.error('Payment submission failed:', error);
-                alert('Failed to process payment. Please try again.');
+        if (country === "india") {
+            const gst = packagee?.price_inr ? +(packagee.price_inr * 0.18).toFixed(2) : 0;
+            const totalPrice = packagee?.price_inr ? +(packagee.price_inr + gst).toFixed(2) : 0;
+            let amount = discount.discountStatus ? (totalPrice - (totalPrice * discount.discount)).toFixed(0) : totalPrice.toFixed(0);
+
+            if (phone) {
+                try {
+                    const response = await PayMentPhone({ phone , amount });
+                    window.open(response.data.url, '_blank'); // Open the payment link in a new tab
+                } catch (error) {
+                    console.error('Payment submission failed:', error);
+                    alert('Failed to process payment. Please try again.');
+                }
+            }
+        } else {
+            const gst = packagee?.price_usd ? +(packagee.price_usd * 0.18).toFixed(2) : 0;
+            const totalPrice = packagee?.price_usd ? +(packagee.price_usd + gst).toFixed(2) : 0;
+            let amount = discount.discountStatus ? (totalPrice - (totalPrice * discount.discount)).toFixed(0) : totalPrice.toFixed(0);
+            if (phone) {
+                try {
+                    const response = await PayMentPaypal({ phone, amount });
+                    window.open(response.data.url, '_blank'); // Open the payment link in a new tab
+                } catch (error) {
+                    console.error('Payment submission failed:', error);
+                    alert('Failed to process payment. Please try again.');
+                }
             }
         }
+
+
     };
 
     return (
         <div className="billingDetails">
             {/* Form for user billing details */}
             <form onSubmit={(e) => e.preventDefault()}>
-                <div className="form-group form-group-flex">
-                    <div style={{ flex: 1 }}>
-                        <label htmlFor="discountCode">Discount Code (Optional)</label>
-                        <input
-                            type="text"
-                            id="discountCode"
-                            name="discountCode"
-                            placeholder="Enter discount code"
-                            value={discount}
-                            onChange={(e) => setDiscount(e.target.value)}
-                        />
-                    </div>
-                    <button type="button" className="apply-btn">
-                        Apply
-                    </button>
-                </div>
+                <Discount />
                 <h1>Billing Details</h1>
 
                 {/* Full Name Input */}
