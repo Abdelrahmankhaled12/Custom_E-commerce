@@ -31,11 +31,10 @@ const BillingDetails: React.FC = () => {
         if (country === "india") {
             const gst = packagee?.price_inr ? +(packagee.price_inr * 0.18).toFixed(2) : 0;
             const totalPrice = packagee?.price_inr ? +(packagee.price_inr + gst).toFixed(2) : 0;
-            let amount = discount.discountStatus ? (totalPrice - (totalPrice * discount.discount)).toFixed(0) : totalPrice.toFixed(0);
-
+            let amount = discount.discountStatus ? +((totalPrice - (totalPrice * discount.discount))*100).toFixed(2) : +(totalPrice * 100).toFixed(2);
             if (phone) {
                 try {
-                    const response = await PayMentPhone({ phone , amount });
+                    const response = await PayMentPhone({ phone, amount });
                     window.open(response.data.url, '_blank'); // Open the payment link in a new tab
                 } catch (error) {
                     console.error('Payment submission failed:', error);
@@ -45,7 +44,7 @@ const BillingDetails: React.FC = () => {
         } else {
             const gst = packagee?.price_usd ? +(packagee.price_usd * 0.18).toFixed(2) : 0;
             const totalPrice = packagee?.price_usd ? +(packagee.price_usd + gst).toFixed(2) : 0;
-            let amount = discount.discountStatus ? (totalPrice - (totalPrice * discount.discount)).toFixed(0) : totalPrice.toFixed(0);
+            let amount = discount.discountStatus ? +(totalPrice - (totalPrice * discount.discount)).toFixed(2) : +totalPrice.toFixed(2);
             if (phone) {
                 try {
                     const response = await PayMentPaypal({ phone, amount });

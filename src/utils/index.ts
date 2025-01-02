@@ -1,4 +1,4 @@
-const URL_API = "https://testworld.online/be";
+const URL_API = "https://testtestapp.store/be";
 
 
 interface LoginData {
@@ -70,7 +70,7 @@ export const loginGoogle = async (): Promise<LoginGoogleResponse> => {
 
 interface PaymentData {
     phone: string; // Add more fields if needed
-    amount: string; // Add more fields if needed
+    amount: any; // Add more fields if needed
 }
 
 interface PaymentResponse {
@@ -78,7 +78,7 @@ interface PaymentResponse {
     [key: string]: any; // Replace with specific keys if the response structure is known
 }
 
-export const PayMentPhone  = async (data: PaymentData): Promise<PaymentResponse> => {
+export const PayMentPhone = async (data: PaymentData): Promise<PaymentResponse> => {
     return new Promise((resolve, reject) => {
         const formData = new FormData();
         formData.append('amount', data.amount);
@@ -227,6 +227,28 @@ export const discountApi = async (data: DiscountData): Promise<ResponseDiscount>
         }
 
         const jsonData: ResponseDiscount = await response.json();
+        return jsonData;
+    } catch (error: any) {
+        console.error("Error in loginGoogle:", error.message);
+        throw new Error("Failed to initiate Google Sign-In. Please try again.");
+    }
+};
+
+
+// =========================================================================================
+// =========================================================================================
+
+export const GetIP = async () => {
+    try {
+        const response = await fetch(URL_API + `/public/api/get-ip-info`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const jsonData = await response.json();
         return jsonData;
     } catch (error: any) {
         console.error("Error in loginGoogle:", error.message);

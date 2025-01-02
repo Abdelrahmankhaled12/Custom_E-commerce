@@ -1,3 +1,4 @@
+import  countryIPReducer  from './countryIP';
 import packageeReducer from './package';
 import loginReducer from './login';
 import discountReducer from './discount';
@@ -13,6 +14,8 @@ export const store = configureStore({
         login: loginReducer, // Handles login state
         packagee: packageeReducer, // Handles package-related state
         discount: discountReducer, // Handles discount-related state
+        countryIP: countryIPReducer, 
+
     },
 });
 

@@ -4,13 +4,20 @@ import 'aos/dist/aos.css'; // AOS library styles
 import { BrowserRouter, Route, Routes } from 'react-router-dom'; // React Router for navigation
 
 // Importing page components
-import { Checkout, Home, NotFoundPage , Profile, Signup } from './pages';
+import { Checkout, Home, NotFoundPage, Profile, Signup } from './pages';
+import { GetIP } from './utils';
+import { AppDispatch } from './store';
+import { useDispatch } from "react-redux";
+import { setCountryIPData } from './store/countryIP';
 
 /**
  * App Component
  * Root component of the application, handling routing and global initializations.
  */
 function App() {
+
+  const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
     // Initialize AOS library for scroll animations
     try {
@@ -20,6 +27,10 @@ function App() {
     } catch (error) {
       console.error('Failed to initialize AOS:', error);
     }
+
+    GetIP().then((res) => {
+      dispatch(setCountryIPData(res.data))
+    })
   }, []);
 
   return (

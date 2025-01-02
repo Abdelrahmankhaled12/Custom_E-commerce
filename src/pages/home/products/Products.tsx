@@ -38,6 +38,7 @@ const Products: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const login = useSelector((state: RootState) => state.login); // Login state from Redux
+  const countryIP = useSelector((state: RootState) => state.countryIP); // Access login state from Redux
 
   // Fetch product data and initialize counters
   useEffect(() => {
@@ -124,9 +125,13 @@ const Products: React.FC = () => {
                         </option>
                       ))}
                     </select>
-
-                    <span>For Rs. {selectedCombo?.price_inr || 0}</span>
-                    <span>For USD. {selectedCombo?.price_usd || 0}</span>
+                      {
+                        countryIP?.country === "India" ? (
+                          <span>For Rs. {selectedCombo?.price_inr || 0}</span>
+                        ) : (
+                          <span>For USD. {selectedCombo?.price_usd || 0}</span>
+                        )
+                      }
 
                     <button
                       onClick={() => submitGetNow(product, counters[index])}
