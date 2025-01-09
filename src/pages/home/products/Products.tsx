@@ -27,6 +27,7 @@ const db = getDatabase(app);
 interface ProductData {
   name: string;
   description: string;
+  package_id: string;
   interactions_price_combos: { number: number; price_inr: number; price_usd: number }[];
 }
 
@@ -69,6 +70,8 @@ const Products: React.FC = () => {
         description: product.description,
         price_inr: selectedCombo?.price_inr || 0,
         price_usd: selectedCombo?.price_usd || 0,
+        package_id: product?.package_id,
+        amount: selectedCombo?.number,
       })
     );
 
@@ -126,7 +129,7 @@ const Products: React.FC = () => {
                       ))}
                     </select>
                       {
-                        countryIP?.country === "India" ? (
+                        countryIP?.countryIpData.country === "India" ? (
                           <span>For Rs. {selectedCombo?.price_inr || 0}</span>
                         ) : (
                           <span>For USD. {selectedCombo?.price_usd || 0}</span>

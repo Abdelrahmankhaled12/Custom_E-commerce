@@ -1,0 +1,66 @@
+@import '../../mixins.scss';
+
+.successPayment {
+    animation: content-animation 1s ease forwards;
+    padding: 10px 0px 60px;
+
+    .grid {
+        grid-template-columns: 1fr;
+        align-items: center;
+        display: grid;
+
+        @include md {
+            grid-template-columns: 1.2fr 1fr;
+        }
+
+        .image {
+            img {
+                width: 100%;
+                max-width: 500px;
+                margin: auto;
+
+                @include md {
+                    max-width: 100%;
+                }
+            }
+        }
+
+        .text {
+            h3 {
+                color: #000000cf;
+                font-size: 23px;
+                font-weight: 700;
+                span {
+                    color: var(--primary);
+                }
+            }
+            p {
+                color: #000;
+                font-size: 17px;
+                font-weight: 500;
+            }
+
+            a {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                width: fit-content;
+                gap: 10px;
+                color: #ffffff;
+                background-color: var(--primary);
+                font-size: 17px;
+                border: 1px solid var(--primary);
+                border-radius: 8px;
+                transition: 0.5s;
+                cursor: pointer;
+                padding: 10px 20px;
+                margin: 20px 0px;
+
+                &:hover {
+                    background-color: #ffffff;
+                    color: var(--primary);
+                }
+            }
+        }
+    }
+}

@@ -4,7 +4,7 @@ import 'aos/dist/aos.css'; // AOS library styles
 import { BrowserRouter, Route, Routes } from 'react-router-dom'; // React Router for navigation
 
 // Importing page components
-import { Checkout, Home, NotFoundPage, Profile, Signup } from './pages';
+import { Checkout, Home, NotFoundPage, Profile, Signup, SuccessPayment } from './pages';
 import { GetIP } from './utils';
 import { AppDispatch } from './store';
 import { useDispatch } from "react-redux";
@@ -48,6 +48,9 @@ function App() {
 
         {/* Signup Page */}
         <Route path="/signup" element={<Signup />} />
+
+        {/* Signup Page */}
+        <Route path="/success-payment" element={<SuccessPayment />} />
 
         {/* Catch-All for 404 Pages */}
         <Route path="/*" element={<NotFoundPage />} />

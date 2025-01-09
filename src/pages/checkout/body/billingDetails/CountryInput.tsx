@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Define the props with TypeScript types for better type safety
 interface CountryInputProps {
@@ -13,6 +13,7 @@ interface CountryInputProps {
 const CountryInput: React.FC<CountryInputProps> = ({ country, setCountry }) => {
     // List of country options to simplify scalability
     const countryOptions = [
+        { value: 'india', label: 'India' },
         { value: 'afghanistan', label: 'Afghanistan' },
         { value: 'aland-islands', label: 'Åland Islands' },
         { value: 'albania', label: 'Albania' },
@@ -113,7 +114,6 @@ const CountryInput: React.FC<CountryInputProps> = ({ country, setCountry }) => {
         { value: 'hong-kong', label: 'Hong Kong' },
         { value: 'hungary', label: 'Hungary' },
         { value: 'iceland', label: 'Iceland' },
-        { value: 'india', label: 'India' },
         { value: 'indonesia', label: 'Indonesia' },
         { value: 'iran-islamic-republic-of', label: 'Iran, Islamic Republic of' },
         { value: 'iraq', label: 'Iraq' },
@@ -258,7 +258,8 @@ const CountryInput: React.FC<CountryInputProps> = ({ country, setCountry }) => {
         { value: 'zambia', label: 'Zambia' },
         { value: 'zimbabwe', label: 'Zimbabwe' },
     ];
-    
+
+    const [size, setSize] = useState(1);
 
     return (
         <div className="form-group">
@@ -273,13 +274,18 @@ const CountryInput: React.FC<CountryInputProps> = ({ country, setCountry }) => {
                 onChange={(e) => setCountry(e.target.value)} // Update state on selection change
                 required // Marks this field as mandatory
                 aria-label="Country selector" // Accessibility label for screen readers
+                size={size} // Dynamically set the size of the dropdown
+                onClick={() => setSize(size !== 1 ? 1 : 5)} // Toggle size on click
+                onBlur={() => setSize(1)} // Reset size on blur
             >
-                {/* Dynamically render country options */}
-                {countryOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
+                <optgroup>
+                    {/* Dynamically render country options */}
+                    {countryOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </optgroup>
             </select>
         </div>
     );

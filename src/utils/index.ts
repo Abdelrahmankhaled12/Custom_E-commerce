@@ -255,3 +255,33 @@ export const GetIP = async () => {
         throw new Error("Failed to initiate Google Sign-In. Please try again.");
     }
 };
+
+
+export const SuccessPaymentApi = async (data: any): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('package_id', data.package_id);
+        formData.append('user_id', data.user_id);
+        formData.append('interactions_count', data.interactions_count);
+        formData.append('country', data.country);
+        formData.append('mobile_number', data.number);
+
+        fetch(URL_API + `/public/api/paypal/success-payment`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((jsonData: any) => {
+                resolve(jsonData);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
+

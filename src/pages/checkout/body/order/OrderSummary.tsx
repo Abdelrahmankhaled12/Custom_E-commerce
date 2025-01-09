@@ -29,7 +29,7 @@ const OrderSummary: React.FC = () => {
                     <tr>
                         <th>Item</th>
                         {
-                            countryIP?.country === "India" ? (
+                            countryIP?.countryIpData.country === "India" ? (
                                 <th>Price (₹)</th>
                             ) : (
                                 <th>Price ($)</th>
@@ -44,17 +44,17 @@ const OrderSummary: React.FC = () => {
                             <p>{packagee?.description || 'Please select a package to view details.'}</p>
                         </td>
                         {
-                            countryIP?.country === "India" ? (
-                                <td>${packagee?.price_usd?.toFixed(2) || '0.00'}</td>
+                            countryIP?.countryIpData.country === "India" ? (
+                                <td>₹{packagee?.price_inr?.toFixed(2) || '0.00'}</td>
                             ) : (
-                                <td>${packagee?.price_inr?.toFixed(2) || '0.00'}</td>
+                                <td>${packagee?.price_usd?.toFixed(2) || '0.00'}</td>
                             )
                         }
                     </tr>
                     <tr>
                         <td>GST (18%)</td>
                         {
-                            countryIP?.country === "India" ? (
+                            countryIP?.countryIpData.country === "India" ? (
                                 <td>₹{gstIndia.toFixed(2)}</td>
                             ) : (
                                 <td>${gst.toFixed(2)}</td>
@@ -64,7 +64,7 @@ const OrderSummary: React.FC = () => {
                     <tr>
                         <td><strong>Total Price</strong></td>
                         {
-                            countryIP?.country === "India" ? (
+                            countryIP?.countryIpData.country === "India" ? (
                                 <td><strong>₹{totalPriceIndia.toFixed(2)}</strong></td>
                             ) : (
                                 <td><strong>${totalPrice.toFixed(2)}</strong></td>
@@ -84,7 +84,7 @@ const OrderSummary: React.FC = () => {
                             <tr>
                                 <td><strong>Total Price After Discount</strong></td>
                                 {
-                                    countryIP?.country === "India" ? (
+                                    countryIP?.countryIpData.country === "India" ? (
                                         <td><strong>₹{(totalPriceIndia - (totalPriceIndia * discount.discount)).toFixed(2)}</strong></td>
                                     ) : (
                                         <td><strong>${(totalPrice - (totalPrice * discount.discount)).toFixed(2)}</strong></td>
