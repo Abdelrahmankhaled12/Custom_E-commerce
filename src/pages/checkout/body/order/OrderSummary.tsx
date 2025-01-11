@@ -15,11 +15,14 @@ const OrderSummary: React.FC = () => {
     const countryIP = useSelector((state: RootState) => state.countryIP); // Get login state from Redux
 
     // Calculate GST (18%) dynamically
-    const gst = packagee?.price_usd ? +(packagee.price_usd * 0.18).toFixed(2) : 0;
-    const totalPrice = packagee?.price_usd ? +(packagee.price_usd + gst).toFixed(2) : 0;
+    const totalPrice = packagee?.price_usd ? +(packagee.price_usd).toFixed(2) : 0;
 
     const gstIndia = packagee?.price_inr ? +(packagee.price_inr * 0.18).toFixed(2) : 0;
     const totalPriceIndia = packagee?.price_inr ? +(packagee.price_inr + gstIndia).toFixed(2) : 0;
+
+    const totalPriceIndiaAfterDis = packagee?.price_inr ?
+        +((packagee?.price_inr - (packagee?.price_inr * discount.discount))).toFixed(2)
+        : 0;
 
     return (
         <div className="orderSummary">
@@ -52,12 +55,18 @@ const OrderSummary: React.FC = () => {
                         }
                     </tr>
                     <tr>
-                        <td>GST (18%)</td>
+                        {
+                            countryIP?.countryIpData.country === "India" ? (
+                                <td>GST (18%)</td>
+                            ) : (
+                                <td>GST (0%)</td>
+                            )
+                        }
                         {
                             countryIP?.countryIpData.country === "India" ? (
                                 <td>₹{gstIndia.toFixed(2)}</td>
                             ) : (
-                                <td>${gst.toFixed(2)}</td>
+                                <td>$0.00</td>
                             )
                         }
                     </tr>
@@ -85,7 +94,7 @@ const OrderSummary: React.FC = () => {
                                 <td><strong>Total Price After Discount</strong></td>
                                 {
                                     countryIP?.countryIpData.country === "India" ? (
-                                        <td><strong>₹{(totalPriceIndia - (totalPriceIndia * discount.discount)).toFixed(2)}</strong></td>
+                                        <td><strong>₹{(totalPriceIndiaAfterDis + totalPriceIndiaAfterDis * 0.18).toFixed(2)}</strong></td>
                                     ) : (
                                         <td><strong>${(totalPrice - (totalPrice * discount.discount)).toFixed(2)}</strong></td>
                                     )

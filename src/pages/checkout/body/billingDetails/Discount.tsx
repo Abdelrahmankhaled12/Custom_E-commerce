@@ -48,7 +48,7 @@ const Discount: React.FC = () => {
         <>
             <div className="form-group form-group-flex">
                 <div style={{ flex: 1 }}>
-                    <label htmlFor="discountCode">Code (Optional)</label>
+                    <label htmlFor="discountCode">Discount Code</label>
                     <input
                         type="text"
                         id="discountCode"

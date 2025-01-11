@@ -161,7 +161,7 @@ const Signup: React.FC = () => {
                                         <div className="or">Or</div>
                                         <button type="button" className="signGoogle" onClick={handleGoogleLogin}>
                                             <img src={icon} alt="Google Logo" />
-                                            <p>Login with Google</p>
+                                            <p>Signup with Google</p>
                                         </button>
                                     </>
                                 ) : (
