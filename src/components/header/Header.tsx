@@ -15,6 +15,13 @@ const Header: React.FC = () => {
   const navigate = useNavigate(); // Initialize navigation
   const login = useSelector((state: RootState) => state.login); // Access login state from Redux
 
+  const handleButtonClick = () => {
+    const section = document.getElementById("works");
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header id="header"> {/* Main header container */}
       <div className="container"> {/* Wrapper for layout and centering */}
@@ -33,7 +40,7 @@ const Header: React.FC = () => {
 
           {/* Navigation buttons */}
           <div className="buttons">
-            <button onClick={() => navigate('/prep')} aria-label="Start Preparation">
+            <button onClick={() => handleButtonClick()} aria-label="Start Preparation">
               START PREP
             </button>
             <button onClick={() => navigate('/guides')} aria-label="View Guides">

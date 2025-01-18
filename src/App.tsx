@@ -8,7 +8,8 @@ import { Checkout, Home, NotFoundPage, Profile, Signup, SuccessPayment } from '.
 import { GetIP } from './utils';
 import { AppDispatch } from './store';
 import { useDispatch } from "react-redux";
-import { setCountryIPData } from './store/countryIP';
+import { setCountryIPData } from './store/countryIP'
+import { setLoginStatus, setUserData } from './store/login';
 
 /**
  * App Component
@@ -28,10 +29,29 @@ function App() {
       console.error('Failed to initialize AOS:', error);
     }
 
+    getDateFromLocal()
+
     GetIP().then((res) => {
       dispatch(setCountryIPData(res.data))
     })
   }, []);
+
+  const getDateFromLocal = () => {
+    // Get the 'login' value from sessionStorage
+    const loginStatus = sessionStorage.getItem('login');
+
+    // Check if 'login' is stored and if its value equals "true"
+    if (loginStatus === "true") {
+      dispatch(setLoginStatus());
+
+      // Get and parse 'data' from sessionStorage
+      const userData = sessionStorage.getItem('data');
+      if (userData) {
+        dispatch(setUserData(JSON.parse(userData)));
+      }
+    }
+  };
+
 
   return (
     <BrowserRouter>

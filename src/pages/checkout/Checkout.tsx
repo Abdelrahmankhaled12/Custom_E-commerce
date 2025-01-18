@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Effect, Footer, Header } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { Animation, Effect, Footer, Header } from '../../components';
 import BodyCheckout from './body/BodyCheckout';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,8 @@ import { RootState } from '../../store';
 const Checkout: React.FC = () => {
     const login = useSelector((state: RootState) => state.login); // Get login state from Redux
     const navigate = useNavigate(); // Initialize navigate function
+    // State to control animation
+    const [animationOff, setAnimationOff] = useState(true);
 
     useEffect(() => {
         // Redirect unauthenticated users to the home page
@@ -24,9 +26,26 @@ const Checkout: React.FC = () => {
         }
     }, [login.loginStatus, navigate]); // Ensure dependencies are properly tracked
 
+
+
+    // useEffect hook to scroll the window to the top when the component mounts
+    useEffect(() => {
+        animationOFF(); // Trigger animation function on component mount
+    }, []);
+
+    // Function to handle animation
+    const animationOFF = () => {
+        // Set animationOff to false after a delay specified by TimaAnimation constant
+        setTimeout(() => {
+            setAnimationOff(false);
+        }, 1200);
+    };
+
     return (
         <>
-            {
+            {animationOff ? (
+                <Animation />
+            ) : (
                 login.loginStatus && (
                     <Effect>
                         <Header />
@@ -34,7 +53,7 @@ const Checkout: React.FC = () => {
                         <Footer />
                     </Effect>
                 )
-            }
+            )}
         </>
     );
 };

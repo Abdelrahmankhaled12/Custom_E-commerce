@@ -17,12 +17,27 @@ const Signup: React.FC = () => {
     const [animation, setAnimation] = useState<boolean>(false);
     const [isOpenLogin, setIsOpenLogin] = useState(false);
     const [error, setError] = useState<string | null>(null); // State for error messages
+    // State to control animation
+    const [animationOff, setAnimationOff] = useState(true);
 
     const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    // useEffect hook to scroll the window to the top when the component mounts
+    useEffect(() => {
+        animationOFFPage(); // Trigger animation function on component mount
+    }, []);
+
+    // Function to handle animation
+    const animationOFFPage = () => {
+        // Set animationOff to false after a delay specified by TimaAnimation constant
+        setTimeout(() => {
+            setAnimationOff(false);
+        }, 1200);
+    };
 
     // Validate inputs and register user
     const submit = async () => {
@@ -76,106 +91,112 @@ const Signup: React.FC = () => {
     };
 
     return (
-        <Effect>
-            <Header />
-            <div className="signup">
-                <div className="logInContent grid">
-                    <div className="image">
-                        <img src={cover} alt="Cover" />
-                    </div>
-                    <div className="form">
-                        {animation ? (
-                            <div className="loading">
-                                <Animation />
+        <>
+            {animationOff ? (
+                <Animation />
+            ) : (
+                <Effect>
+                    <Header />
+                    <div className="signup">
+                        <div className="logInContent grid">
+                            <div className="image">
+                                <img src={cover} alt="Cover" />
                             </div>
-                        ) : (
-                            <div>
-                                {!done ? (
-                                    <>
-                                        <div className="text">
-                                            <h2>
-                                                Signup to <span onClick={() => navigate('/')}>CASEPREP</span> 👋
-                                            </h2>
-                                            <p>Please sign up to your account and start the adventure</p>
-                                        </div>
-                                        <form onSubmit={(e) => e.preventDefault()}>
-                                            <div className="div">
-                                                <div className="icon">
-                                                    <FontAwesomeIcon icon={faUser} />
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    placeholder="First Name"
-                                                    onChange={(e) => setFirstName(e.target.value)}
-                                                    value={firstName}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="div">
-                                                <div className="icon">
-                                                    <FontAwesomeIcon icon={faUser} />
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Last Name"
-                                                    onChange={(e) => setLastName(e.target.value)}
-                                                    value={lastName}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="div">
-                                                <div className="icon">
-                                                    <FontAwesomeIcon icon={faEnvelope} />
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Email"
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                    value={email}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="div">
-                                                <div className="icon">
-                                                    <FontAwesomeIcon icon={faLock} />
-                                                </div>
-                                                <input
-                                                    type="password"
-                                                    placeholder="Password"
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    value={password}
-                                                    required
-                                                />
-                                            </div>
-                                            {/* Display Error Messages */}
-                                            {error && <p className="error-message">{error}</p>}
-                                            <button type="button" className="submit" onClick={submit}>
-                                                Sign up
-                                            </button>
-                                        </form>
-                                        <p className="account">
-                                            Already have an account? <span onClick={() => setIsOpenLogin(true)}>Login</span>
-                                        </p>
-                                        <div className="or">Or</div>
-                                        <button type="button" className="signGoogle" onClick={handleGoogleLogin}>
-                                            <img src={icon} alt="Google Logo" />
-                                            <p>Signup with Google</p>
-                                        </button>
-                                    </>
+                            <div className="form">
+                                {animation ? (
+                                    <div className="loading">
+                                        <Animation />
+                                    </div>
                                 ) : (
-                                    <div className="steps">
-                                        <h3>Thank you for registering with <span>CasePrep.</span> We've sent a verification link to you at {email}. Please verify your email to begin your journey.</h3>
+                                    <div>
+                                        {!done ? (
+                                            <>
+                                                <div className="text">
+                                                    <h2>
+                                                        Signup to <span onClick={() => navigate('/')}>CASEPREP</span> 👋
+                                                    </h2>
+                                                    <p>Please sign up to your account and start the adventure</p>
+                                                </div>
+                                                <form onSubmit={(e) => e.preventDefault()}>
+                                                    <div className="div">
+                                                        <div className="icon">
+                                                            <FontAwesomeIcon icon={faUser} />
+                                                        </div>
+                                                        <input
+                                                            type="text"
+                                                            placeholder="First Name"
+                                                            onChange={(e) => setFirstName(e.target.value)}
+                                                            value={firstName}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="div">
+                                                        <div className="icon">
+                                                            <FontAwesomeIcon icon={faUser} />
+                                                        </div>
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Last Name"
+                                                            onChange={(e) => setLastName(e.target.value)}
+                                                            value={lastName}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="div">
+                                                        <div className="icon">
+                                                            <FontAwesomeIcon icon={faEnvelope} />
+                                                        </div>
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Email"
+                                                            onChange={(e) => setEmail(e.target.value)}
+                                                            value={email}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="div">
+                                                        <div className="icon">
+                                                            <FontAwesomeIcon icon={faLock} />
+                                                        </div>
+                                                        <input
+                                                            type="password"
+                                                            placeholder="Password"
+                                                            onChange={(e) => setPassword(e.target.value)}
+                                                            value={password}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    {/* Display Error Messages */}
+                                                    {error && <p className="error-message">{error}</p>}
+                                                    <button type="button" className="submit" onClick={submit}>
+                                                        Sign up
+                                                    </button>
+                                                </form>
+                                                <p className="account">
+                                                    Already have an account? <span onClick={() => setIsOpenLogin(true)}>Login</span>
+                                                </p>
+                                                <div className="or">Or</div>
+                                                <button type="button" className="signGoogle" onClick={handleGoogleLogin}>
+                                                    <img src={icon} alt="Google Logo" />
+                                                    <p>Signup with Google</p>
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <div className="steps">
+                                                <h3>Thank you for registering with <span>CasePrep.</span> We've sent a verification link to you at {email}. Please verify your email to begin your journey.</h3>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
-                        )}
+                        </div>
                     </div>
-                </div>
-            </div>
-            <Footer />
-            {/* Login Modal */}
-            <LoginUser isOpen={isOpenLogin} closeModel={() => setIsOpenLogin(false)} nav="/" />
-        </Effect>
+                    <Footer />
+                    {/* Login Modal */}
+                    <LoginUser isOpen={isOpenLogin} closeModel={() => setIsOpenLogin(false)} nav="/" />
+                </Effect>
+            )}
+        </>
     );
 };
 

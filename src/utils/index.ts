@@ -14,18 +14,15 @@ interface PaymentResponse {
 
 export const loginAPi = async (data: LoginData): Promise<PaymentResponse> => {
     return new Promise((resolve, reject) => {
-        const formData = new FormData();
-        formData.append('email', data.email);
-        formData.append('password', data.password);
-
         fetch(URL_API + "/public/api/auth/login", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(data),
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
                 return response.json();
             })
             .then((jsonData: PaymentResponse) => {

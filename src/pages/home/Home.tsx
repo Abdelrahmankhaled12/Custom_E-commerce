@@ -48,6 +48,9 @@ const Home: React.FC = () => {
             const response = await userData({ token });
             dispatch(setLoginStatus());
             dispatch(setUserData(response.data));
+            sessionStorage.setItem('login', "true"); 
+            sessionStorage.setItem("data", JSON.stringify(response.data));  
+            
         } catch (error) {
             console.error("Failed to fetch user data:", error);
             // Optionally, handle user feedback for failed login

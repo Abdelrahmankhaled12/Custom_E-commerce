@@ -27,26 +27,31 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
   /**
    * Handles form submission for user login
    */
-  
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null); // Reset error state
 
-    try {
-      const response = await loginAPi({ email, password });
+    const response = await loginAPi({ email, password });
 
-      if (response.status === 200) {
-        dispatch(setLoginStatus());
-        dispatch(setUserData(response.data));
-        closeModel();
-        navigate(nav);
-      } else {
-        setError(response.message || "Login failed. Please try again.");
-      }
-    } catch (err: any) {
-      console.error("Error during login:", err.message);
-      setError("An unexpected error occurred. Please try again.");
+    if (response.status === 200) {
+      dispatch(setLoginStatus());
+      dispatch(setUserData(response.data));
+      sessionStorage.setItem('login', "true"); 
+      sessionStorage.setItem("data", JSON.stringify(response.data));  
+      closeModel();
+      navigate(nav);
+      return;
     }
+
+    if (response.status === 422) {
+      setError(response?.message)
+      return;
+    }
+
+    setError(response?.message)
+    return;
+
   };
 
   /**

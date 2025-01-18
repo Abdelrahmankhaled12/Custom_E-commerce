@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'; // Explicit React import
+import React, { useEffect, useState } from 'react'; // Explicit React import
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store';
-import { Effect, Footer, Header } from '../../components';
+import { Animation, Effect, Footer, Header } from '../../components';
 import ProfileBody from './body/ProfileBody';
 
 /**
@@ -13,6 +13,8 @@ import ProfileBody from './body/ProfileBody';
 const Profile: React.FC = () => {
   const login = useSelector((state: RootState) => state.login); // Get login state from Redux
   const navigate = useNavigate(); // Initialize navigate function for programmatic navigation
+  // State to control animation
+  const [animationOff, setAnimationOff] = useState(true);
 
   useEffect(() => {
     // Redirect to home page if user is not logged in
@@ -24,12 +26,34 @@ const Profile: React.FC = () => {
     }
   }, [login.loginStatus, navigate]);
 
+  // useEffect hook to scroll the window to the top when the component mounts
+  useEffect(() => {
+    animationOFF(); // Trigger animation function on component mount
+  }, []);
+
+  // Function to handle animation
+  const animationOFF = () => {
+    // Set animationOff to false after a delay specified by TimaAnimation constant
+    setTimeout(() => {
+      setAnimationOff(false);
+    }, 1200);
+  };
+
   return (
-    <Effect>
-      <Header />
-      <ProfileBody />
-      <Footer />
-    </Effect>
+    <>
+      {
+        animationOff ? (
+          <Animation />
+        ) : (
+          <Effect>
+            <Header />
+            <ProfileBody />
+            <Footer />
+          </Effect>
+        )
+      }
+    </>
+
   );
 };
 

@@ -63,7 +63,7 @@ const Products: React.FC = () => {
 
   // Handle "Get Now" button click
   const submitGetNow = (product: ProductData, comboIndex: number) => {
-    const selectedCombo = product.interactions_price_combos[comboIndex];
+    const selectedCombo = product?.interactions_price_combos[comboIndex];
     dispatch(
       setPackage({
         name: product.name,
@@ -101,8 +101,11 @@ const Products: React.FC = () => {
 
             <div className="boxes">
               {Object.keys(data).map((level, index) => {
+                if (level === "PTRIAL") {
+                  return;
+                }
                 const product = data[level];
-                const selectedCombo = product.interactions_price_combos[counters[index]];
+                const selectedCombo = product?.interactions_price_combos[counters[index]];
 
                 return (
                   <div
@@ -128,13 +131,13 @@ const Products: React.FC = () => {
                         </option>
                       ))}
                     </select>
-                      {
-                        countryIP?.countryIpData.country === "India" ? (
-                          <span>For Rs. {selectedCombo?.price_inr || 0}</span>
-                        ) : (
-                          <span>For USD. {selectedCombo?.price_usd || 0}</span>
-                        )
-                      }
+                    {
+                      countryIP?.countryIpData.country === "India" ? (
+                        <span>For Rs. {selectedCombo?.price_inr || 0}</span>
+                      ) : (
+                        <span>For USD. {selectedCombo?.price_usd || 0}</span>
+                      )
+                    }
 
                     <button
                       onClick={() => submitGetNow(product, counters[index])}

@@ -27,6 +27,8 @@ const ProfileUser: React.FC = () => {
 
     // Handle sign out (reload page for now)
     const signOut = () => {
+        sessionStorage.setItem('login', "false"); 
+        sessionStorage.setItem("data", JSON.stringify(null));  
         window.location.href = "https://testtestapp.store/";
         setIsOpen(false);
     };
