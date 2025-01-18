@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { discountApi } from '../../../../utils';
 import { AppDispatch, RootState } from "../../../../store";
 import { useDispatch, useSelector } from 'react-redux';
 import { setDiscountData, toggleDiscountStatus } from '../../../../store/discount';
 
-const Discount: React.FC = () => {
+interface DiscountInputProps {
+    setDiscount: (value: string) => void;
+}
+
+const Discount: React.FC<DiscountInputProps> = ({ setDiscount }) => {
     const [discountValue, setDiscountValue] = useState<string>(''); // State for the discount code input
     const [loading, setLoading] = useState<boolean>(false); // State for loading
     const [error, setError] = useState<string | null>(null); // State for error messages
@@ -19,11 +23,6 @@ const Discount: React.FC = () => {
         // Reset error state
         setError(null);
 
-        if (!discountValue.trim()) {
-            setError('Please enter a discount code.');
-            return;
-        }
-
         if (!discount.discountStatus) {
             try {
                 setLoading(true);
@@ -32,17 +31,22 @@ const Discount: React.FC = () => {
                 if (response.status === 200) {
                     dispatch(toggleDiscountStatus());
                     dispatch(setDiscountData(response.data.discount));
+                    setDiscount(discountValue)
                 } else {
-                    setError('Discount code is invalid.');
+                    setError('Invalid Discount Code..');
                 }
             } catch (err: any) {
-                console.error('Discount API Error:', err.message);
-                setError('An error occurred while applying the discount. Please try again.');
+                setError('Invalid Discount Code.');
             } finally {
                 setLoading(false);
             }
         }
     };
+
+    useEffect(() => {
+        if (discountValue.trim() === "")
+            setError("")
+    }, [discountValue])
 
     return (
         <>
@@ -63,6 +67,10 @@ const Discount: React.FC = () => {
                     className="apply-btn"
                     onClick={submit}
                     disabled={loading} // Disable button while loading
+                    style={discountValue.trim() === "" ? {
+                        pointerEvents: "none",
+                        opacity: "0.5"
+                    } : {}}
                 >
                     {loading ? 'Applying...' : 'Apply'}
                 </button>

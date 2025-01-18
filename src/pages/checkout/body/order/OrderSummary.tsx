@@ -17,11 +17,12 @@ const OrderSummary: React.FC = () => {
     // Calculate GST (18%) dynamically
     const totalPrice = packagee?.price_usd ? +(packagee.price_usd).toFixed(2) : 0;
 
-    const gstIndia = packagee?.price_inr ? +(packagee.price_inr * 0.18).toFixed(2) : 0;
-    const totalPriceIndia = packagee?.price_inr ? +(packagee.price_inr + gstIndia).toFixed(2) : 0;
+    const totalPriceIndiaBeforeGST = packagee?.price_inr ? +(packagee.price_inr / 1.18).toFixed(2) : 0;
+    const gstIndia = packagee?.price_inr ? +(totalPriceIndiaBeforeGST * 0.18).toFixed(2) : 0;
+    const totalPriceIndia = packagee?.price_inr ? +packagee.price_inr.toFixed(2) : 0;
 
-    const totalPriceIndiaAfterDis = packagee?.price_inr ?
-        +((packagee?.price_inr - (packagee?.price_inr * discount.discount))).toFixed(2)
+    const totalPriceIndiaAfterDis = totalPriceIndiaBeforeGST ?
+        +((totalPriceIndiaBeforeGST - (totalPriceIndiaBeforeGST * discount.discount))).toFixed(2)
         : 0;
 
     return (
@@ -48,7 +49,7 @@ const OrderSummary: React.FC = () => {
                         </td>
                         {
                             countryIP?.countryIpData.country === "India" ? (
-                                <td>₹{packagee?.price_inr?.toFixed(2) || '0.00'}</td>
+                                <td>₹{totalPriceIndiaBeforeGST}</td>
                             ) : (
                                 <td>${packagee?.price_usd?.toFixed(2) || '0.00'}</td>
                             )

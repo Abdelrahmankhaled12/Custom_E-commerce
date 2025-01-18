@@ -69,8 +69,14 @@ export const loginGoogle = async (): Promise<LoginGoogleResponse> => {
 // =========================================================================================
 
 interface PaymentData {
-    phone: string; // Add more fields if needed
-    amount: any; // Add more fields if needed
+    package_id: string; // Add more fields if needed
+    user_id: string; // Add more fields if needed
+    interactions_count: string; // Add more fields if needed
+    mobile_number: any; // Add more fields if needed
+    country: string; // Add more fields if needed
+    discount_code?: string; // Add more fields if needed
+    email: string; // Add more fields if needed
+    full_name: string; // Add more fields if needed
 }
 
 interface PaymentResponse {
@@ -80,13 +86,14 @@ interface PaymentResponse {
 
 export const PayMentPhone = async (data: PaymentData): Promise<PaymentResponse> => {
     return new Promise((resolve, reject) => {
-        const formData = new FormData();
-        formData.append('amount', data.amount);
-        formData.append('mobileNumber', data.phone);
 
         fetch(URL_API + "/public/api/pay", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(data),
         })
             .then(response => {
                 if (!response.ok) {
@@ -108,13 +115,14 @@ export const PayMentPhone = async (data: PaymentData): Promise<PaymentResponse> 
 
 export const PayMentPaypal = async (data: PaymentData): Promise<PaymentResponse> => {
     return new Promise((resolve, reject) => {
-        const formData = new FormData();
-        formData.append('amount', data.amount);
-        formData.append('mobileNumber', data.phone);
 
         fetch(URL_API + "/public/api/paypal/pay", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(data),
         })
             .then(response => {
                 if (!response.ok) {
@@ -133,35 +141,19 @@ export const PayMentPaypal = async (data: PaymentData): Promise<PaymentResponse>
 
 // =========================================================================================
 // =========================================================================================
-interface PaymentDataRegister {
-    firstName: string; // Add more fields if needed
-    lastName: string; // Add more fields if needed
-    email: string; // Add more fields if needed
-    password: string; // Add more fields if needed
 
-}
-
-interface PaymentResponseRegister {
-    // Define the structure of the response if known
-    [key: string]: any; // Replace with specific keys if the response structure is known
-}
-
-export const register = async (data: PaymentDataRegister): Promise<PaymentResponseRegister> => {
+export const register = async (data: any): Promise<any> => {
     return new Promise((resolve, reject) => {
-        const formData = new FormData();
-        formData.append('f_name', data.firstName);
-        formData.append('l_name', data.lastName);
-        formData.append('email', data.email);
-        formData.append('password', data.password);
 
         fetch(URL_API + "/public/api/auth/register", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(data),
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
                 return response.json();
             })
             .then((jsonData: PaymentResponse) => {
@@ -257,31 +249,4 @@ export const GetIP = async () => {
 };
 
 
-export const SuccessPaymentApi = async (data: any): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        const formData = new FormData();
-        formData.append('package_id', data.package_id);
-        formData.append('user_id', data.user_id);
-        formData.append('interactions_count', data.interactions_count);
-        formData.append('country', data.country);
-        formData.append('mobile_number', data.number);
-
-        fetch(URL_API + `/public/api/paypal/success-payment`, {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((jsonData: any) => {
-                resolve(jsonData);
-            })
-            .catch(error => {
-                reject(error);
-            });
-    });
-};
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; // Explicit React import
-import { SuccessPaymentApi } from '../../../../utils/index'; // Payment utility function
+import { PayMentPaypal, PayMentPhone } from '../../../../utils/index'; // Payment utility function
 import CountryInput from './CountryInput'; // Country dropdown component
 import PhoneNumberInput from './PhoneNumberInput'; // Phone number input component
 import './style.scss'; // SCSS file for styling
@@ -17,6 +17,7 @@ const BillingDetails: React.FC = () => {
     const [email, setEmail] = useState<string>(''); // Email address
     const [phone, setPhone] = useState<string | undefined>(''); // Allow undefined
     const [country, setCountry] = useState<string>('india'); // Selected country
+    const [discountValue, setDiscountVslue] = useState<string>(''); // Selected country
 
 
     /**
@@ -26,29 +27,39 @@ const BillingDetails: React.FC = () => {
 
 
     const packagee = useSelector((state: RootState) => state.packagee?.package);
-    // const discount = useSelector((state: RootState) => state.discount);
     const login = useSelector((state: RootState) => state.login);
+    const countryIP = useSelector((state: RootState) => state.countryIP); // Access login state from Redux
 
     const submit = async () => {
-        if (country === "india") {
-            const response = await SuccessPaymentApi({
+        let dataApi;
+        if (discountValue !== "")
+            dataApi = {
                 package_id: packagee.package_id,
                 user_id: login.userData.user_id,
                 interactions_count: packagee.amount,
                 country: country,
-                number: phone,
+                mobile_number: phone,
+                discount_code: discountValue,
+                email: email,
+                full_name: name,
+            }
+        else
+            dataApi = {
+                package_id: packagee.package_id,
+                user_id: login.userData.user_id,
+                interactions_count: packagee.amount,
+                country: country,
+                mobile_number: phone,
+                email: email,
+                full_name: name,
+            }
 
-            });
-            window.location.href = response.data.file_path;
+        if (countryIP?.countryIpData.country === "India") {
+            const response = await PayMentPhone(dataApi);
+            window.location.href = response.data.url;
         } else {
-            const response = await SuccessPaymentApi({
-                package_id: packagee.package_id,
-                user_id: login.userData.user_id,
-                interactions_count: packagee.amount,
-                country: country,
-                number: phone,
-            });
-            window.location.href = response.data.file_path;
+            const response = await PayMentPaypal(dataApi);
+            window.location.href = response.data.url;
         }
     }
 
@@ -56,7 +67,7 @@ const BillingDetails: React.FC = () => {
         <div className="billingDetails">
             {/* Form for user billing details */}
             <form onSubmit={(e) => e.preventDefault()}>
-                <Discount />
+                <Discount setDiscount={(value) => setDiscountVslue(value)} />
                 <h1>Billing Details</h1>
 
                 {/* Full Name Input */}

@@ -25,11 +25,17 @@ const Checkout: React.FC = () => {
     }, [login.loginStatus, navigate]); // Ensure dependencies are properly tracked
 
     return (
-        <Effect>
-            <Header />
-            <BodyCheckout />
-            <Footer />
-        </Effect>
+        <>
+            {
+                login.loginStatus && (
+                    <Effect>
+                        <Header />
+                        <BodyCheckout />
+                        <Footer />
+                    </Effect>
+                )
+            }
+        </>
     );
 };
 

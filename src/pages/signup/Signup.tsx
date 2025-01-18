@@ -1,10 +1,9 @@
 import './style.scss';
 import { useEffect, useState } from 'react';
 import cover from '../../assets/Sign up-cuate.svg';
-import logo from '../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fa1, fa2, fa3, faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Animation, Effect, LoginUser } from '../../components';
+import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Animation, Effect, Footer, Header, LoginUser } from '../../components';
 import icon from '../../assets/google.png';
 import { useNavigate } from 'react-router-dom';
 import { loginGoogle, register } from '../../utils/index';
@@ -40,19 +39,20 @@ const Signup: React.FC = () => {
         }
 
         if (password.length < 6) {
-            setError('Password must be at least 6 characters.');
+            setError('Password must be at least 8 characters.');
             return;
         }
 
-        try {
-            const response = await register({ firstName, lastName, email, password });
-            console.log('Registration successful:', response);
+        const response = await register({ f_name: firstName, l_name: lastName, email, password });
+        console.log(response);
+        if (response.message === "This email already exists.") {
+            setError('Email is already registered with us. Try Signing in.');
+            return;
+        }
+        if (response.status === 200) {
             setAnimation(true);
             animationOFF();
             setDone(true);
-        } catch (err) {
-            console.error('Registration error:', err);
-            setError('Registration failed. Please try again.');
         }
     };
 
@@ -77,6 +77,7 @@ const Signup: React.FC = () => {
 
     return (
         <Effect>
+            <Header />
             <div className="signup">
                 <div className="logInContent grid">
                     <div className="image">
@@ -91,12 +92,9 @@ const Signup: React.FC = () => {
                             <div>
                                 {!done ? (
                                     <>
-                                        <div className="logo" onClick={() => navigate('/')}>
-                                            <img src={logo} alt="Logo" />
-                                        </div>
                                         <div className="text">
                                             <h2>
-                                                Welcome to <span onClick={() => navigate('/')}>BRAINWORKS</span> 👋
+                                                Signup to <span onClick={() => navigate('/')}>CASEPREP</span> 👋
                                             </h2>
                                             <p>Please sign up to your account and start the adventure</p>
                                         </div>
@@ -166,27 +164,7 @@ const Signup: React.FC = () => {
                                     </>
                                 ) : (
                                     <div className="steps">
-                                        <h3>Thank you for registering with us. Please follow the steps below:</h3>
-                                        <div className="step">
-                                            <div className="icon">
-                                                <FontAwesomeIcon icon={fa1} />
-                                            </div>
-                                            <p>Confirm your email via Gmail.</p>
-                                        </div>
-                                        <div className="step">
-                                            <div className="icon">
-                                                <FontAwesomeIcon icon={fa2} />
-                                            </div>
-                                            <p>
-                                                After approval, you will be taken directly to the main page to select your package.
-                                            </p>
-                                        </div>
-                                        <div className="step">
-                                            <div className="icon">
-                                                <FontAwesomeIcon icon={fa3} />
-                                            </div>
-                                            <p>After selecting a package, log in using your email.</p>
-                                        </div>
+                                        <h3>Thank you for registering with <span>CasePrep.</span> We've sent a verification link to you at {email}. Please verify your email to begin your journey.</h3>
                                     </div>
                                 )}
                             </div>
@@ -194,6 +172,7 @@ const Signup: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
             {/* Login Modal */}
             <LoginUser isOpen={isOpenLogin} closeModel={() => setIsOpenLogin(false)} nav="/" />
         </Effect>
