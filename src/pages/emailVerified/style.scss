@@ -1,0 +1,61 @@
+@import '../../mixins.scss';
+
+.emailVerified {
+    padding: 50px 0px 50px;
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .content {
+        position: relative;
+
+        .image {
+            text-align: center;
+        }
+
+        .text {
+            position: relative;
+            line-height: 1.5;
+            h2 {
+                text-align: center;
+                margin-top: 0;
+                font-size: 27px;
+                color: #000000;
+                font-weight: 500;
+                @include sm {
+                    font-size: 40px;
+                }
+            }
+            p {
+                text-align: center;
+                margin: 10px auto;
+                width: auto;
+                color: #000000;
+                font-size: 30px;
+                font-weight:400;
+
+            }
+            button {
+                display: block;
+                background-color: var(--primary);
+                color: #ffffff;
+                font-size: 22px;
+                font-weight: 600;
+                height: 60px;
+                border-radius: 10px;
+                border: 1px solid var(--primary);
+                transition: 0.5s;
+                cursor: pointer;
+                box-shadow: 0 4px 20px 0 rgba(16, 98, 147, 43%);
+                padding: 0px 35px;
+                width: fit-content;
+                margin: 25px auto;
+
+                &:hover {
+                    background-color: #ffffff;
+                    color: var(--primary);
+                }
+            }
+        }
+    }
+}

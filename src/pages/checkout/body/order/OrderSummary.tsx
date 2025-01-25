@@ -7,6 +7,8 @@ interface Package {
     description: string;
     price_usd: number;
     price_inr?: number;
+    amount?: number;
+
 }
 
 const OrderSummary: React.FC = () => {
@@ -44,7 +46,7 @@ const OrderSummary: React.FC = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <p>{packagee?.name || 'No package selected'}</p>
+                            <p>{packagee?.name + ` (${packagee?.amount} interactions)` || 'No package selected'}</p>
                             <p>{packagee?.description || 'Please select a package to view details.'}</p>
                         </td>
                         {

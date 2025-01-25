@@ -246,4 +246,29 @@ export const GetIP = async () => {
 };
 
 
+// =========================================================================================
+// =========================================================================================
+
+export const FREE_TRIAL = async (data: any): Promise<any> => {
+    return new Promise((resolve, reject) => {
+
+        fetch(URL_API + "/public/api/free-trial", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then((jsonData: PaymentResponse) => {
+                resolve(jsonData);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
 

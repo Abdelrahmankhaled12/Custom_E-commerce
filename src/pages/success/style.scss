@@ -26,6 +26,14 @@
         }
 
         .text {
+            h2 {
+                color: #000000cf;
+                font-size: 19px;
+                font-weight: 700;
+                span {
+                    color: var(--primary);
+                }
+            }
             h3 {
                 color: #000000cf;
                 font-size: 23px;

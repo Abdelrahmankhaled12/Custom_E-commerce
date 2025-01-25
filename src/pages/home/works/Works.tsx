@@ -4,10 +4,40 @@ import './style.scss';
 import image from '../../../assets/works.svg';
 import { LoginUser } from '../../../components';
 import { useState } from 'react';
+import { FREE_TRIAL } from '../../../utils';
+import { RootState } from '../../../store';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2/dist/sweetalert2.js'; // Importing SweetAlert2 for displaying alerts
 
 // Define the main functional component 'Works'
 const Works = () => {
     const [isOpenLogin, setIsOpenLogin] = useState(false);
+    const login = useSelector((state: RootState) => state.login); // Access login state from Redux
+    const navigate = useNavigate(); // Initialize navigation
+
+
+    const submitHandle = () => {
+        if (login.loginStatus) {
+            FREE_TRIAL({
+                "user_id": login.userData.user_id
+            }).then((res) => {
+                if (res.message === "You already have a free trial before.") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "You already have a free trial before!",
+                    });
+                    return;
+                }
+                if (res.status === 200) {
+                    navigate("/success-payment")
+                }
+            })
+        } else {
+            setIsOpenLogin(true)
+        }
+    }
 
     return (
         <>
@@ -24,7 +54,7 @@ const Works = () => {
                                 {/* Additional paragraph for more explanation */}
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium fugiat voluptas rerum repellat illo voluptatum aliquid deleniti voluptatibus, quaerat veniam qui alias tempore! Animi nihil ipsa possimus facere incidunt quisquam?
                             </p>
-                            <button onClick={() => setIsOpenLogin(true)}>
+                            <button onClick={() => submitHandle()}>
                                 {/* Button for user action */}
                                 Try for free now
                             </button>

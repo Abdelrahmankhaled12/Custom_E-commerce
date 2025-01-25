@@ -17,14 +17,15 @@ const Checkout: React.FC = () => {
     const [animationOff, setAnimationOff] = useState(true);
 
     useEffect(() => {
+        const loginStatus = sessionStorage.getItem('login');
         // Redirect unauthenticated users to the home page
-        if (!login.loginStatus) {
+        if (!login.loginStatus && loginStatus !== "true") {
             navigate('/');
         } else {
             // Scroll to the top of the page on component mount
             window.scrollTo(0, 0);
         }
-    }, [login.loginStatus, navigate]); // Ensure dependencies are properly tracked
+    }, [login.loginStatus]);
 
 
 

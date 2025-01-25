@@ -35,7 +35,7 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
     const response = await loginAPi({ email, password });
 
     if (response.status === 200) {
-      dispatch(setLoginStatus());
+      dispatch(setLoginStatus(true));
       dispatch(setUserData(response.data));
       sessionStorage.setItem('login', "true"); 
       sessionStorage.setItem("data", JSON.stringify(response.data));  

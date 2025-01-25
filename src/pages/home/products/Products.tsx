@@ -75,6 +75,16 @@ const Products: React.FC = () => {
       })
     );
 
+    sessionStorage.setItem('login', "true");
+    sessionStorage.setItem("package", JSON.stringify({
+      name: product.name,
+      description: product.description,
+      price_inr: selectedCombo?.price_inr || 0,
+      price_usd: selectedCombo?.price_usd || 0,
+      package_id: product?.package_id,
+      amount: selectedCombo?.number,
+    }));
+
     if (!login.loginStatus) {
       setIsOpenLogin(true); // Show login modal if not logged in
     } else {
@@ -92,7 +102,7 @@ const Products: React.FC = () => {
 
   return (
     <>
-      {data ? (
+      {(data && countryIP?.countryIpData) ? (
         <div className="products">
           <div className="container">
             <div className="title" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
@@ -132,7 +142,7 @@ const Products: React.FC = () => {
                       ))}
                     </select>
                     {
-                      countryIP?.countryIpData.country === "India" ? (
+                      countryIP?.countryIpData?.country === "India" ? (
                         <span>For Rs. {selectedCombo?.price_inr || 0}</span>
                       ) : (
                         <span>For USD. {selectedCombo?.price_usd || 0}</span>

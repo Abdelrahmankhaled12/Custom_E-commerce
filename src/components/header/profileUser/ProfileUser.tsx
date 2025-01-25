@@ -27,8 +27,8 @@ const ProfileUser: React.FC = () => {
 
     // Handle sign out (reload page for now)
     const signOut = () => {
-        sessionStorage.setItem('login', "false"); 
-        sessionStorage.setItem("data", JSON.stringify(null));  
+        sessionStorage.setItem('login', "false");
+        sessionStorage.setItem("data", JSON.stringify(null));
         window.location.href = "https://testtestapp.store/";
         setIsOpen(false);
     };
@@ -40,9 +40,13 @@ const ProfileUser: React.FC = () => {
         <div className="profileUser">
             <div className="box">
                 {/* Profile Image */}
-                <div className="image" onClick={toggleDropdown} role="button" tabIndex={0}>
-                    <img src={userPhoto} alt="User Profile" />
+                <div className="flex">
+                    <div className="image" onClick={toggleDropdown} role="button" tabIndex={0}>
+                        <img src={userPhoto} alt="User Profile" />
+                    </div>
+                    {login.loginStatus && (<p>{login?.userData?.f_name + " " + login?.userData?.l_name}</p>)}
                 </div>
+
 
                 {/* Dropdown Menu */}
                 <ul

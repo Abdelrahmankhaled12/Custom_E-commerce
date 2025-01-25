@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the state type
 interface ReservationsState {
-    loginStatus: Boolean; 
-    userData: any; 
+    loginStatus: Boolean;
+    userData: any;
 }
 
 // Initial state
 const initialState: ReservationsState = {
     loginStatus: false,
-    userData:null,
+    userData: null,
 };
 
 // Create the slice using Redux Toolkit
@@ -17,8 +17,8 @@ export const login = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        setLoginStatus: (state) => {
-            state.loginStatus = !state.loginStatus
+        setLoginStatus: (state, action) => {
+            state.loginStatus = action.payload;
         },
         setUserData: (state, action: PayloadAction<any>) => {
             state.userData = action.payload;
