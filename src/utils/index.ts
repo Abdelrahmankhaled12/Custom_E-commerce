@@ -1,4 +1,4 @@
-const URL_API = "https://testtestapp.store/be";
+const URL_API = "https://caseprep.co/sandbox/be";
 
 
 interface LoginData {
