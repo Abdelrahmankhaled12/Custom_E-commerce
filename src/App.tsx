@@ -66,7 +66,7 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/sandbox/'>
       {/* Define application routes */}
       <Routes>
         {/* Home Page */}

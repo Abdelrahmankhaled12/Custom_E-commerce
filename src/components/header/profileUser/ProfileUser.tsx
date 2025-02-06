@@ -29,7 +29,7 @@ const ProfileUser: React.FC = () => {
     const signOut = () => {
         sessionStorage.setItem('login', "false");
         sessionStorage.setItem("data", JSON.stringify(null));
-        window.location.href = "https://testtestapp.store/";
+        window.location.href = "https://caseprep.co/sandbox/";
         setIsOpen(false);
     };
 
