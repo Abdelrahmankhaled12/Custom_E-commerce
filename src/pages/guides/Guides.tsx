@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; // Explicit React import
-import { Animation, Effect, Footer, Header } from '../../components';
+import { Animation, Effect, Header } from '../../components';
 import GuidesBody from './guidesBody/GuidesBody';
 
 /**
