@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import cover from '../../assets/Sign up-cuate.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Animation, Effect, Footer, Header, LoginUser } from '../../components';
+import { Animation, Effect, Footer, Header, LoginUser, Spinner } from '../../components';
 import icon from '../../assets/google.png';
 import { useNavigate } from 'react-router-dom';
 import { loginGoogle, register } from '../../utils/index';
@@ -19,6 +19,7 @@ const Signup: React.FC = () => {
     const [error, setError] = useState<string | null>(null); // State for error messages
     // State to control animation
     const [animationOff, setAnimationOff] = useState(true);
+    const [spinnerRun, setSpinnerRun] = useState<boolean>(false); // Spinner state
 
     const navigate = useNavigate();
 
@@ -44,6 +45,7 @@ const Signup: React.FC = () => {
         setError(null);
 
         if (!firstName.trim() || !lastName.trim() || !email.trim() || !password.trim()) {
+
             setError('All fields are required.');
             return;
         }
@@ -57,14 +59,16 @@ const Signup: React.FC = () => {
             setError('Password must be at least 8 characters.');
             return;
         }
+        setSpinnerRun(true); // Show spinner during API call
 
         const response = await register({ f_name: firstName, l_name: lastName, email, password });
-        console.log(response);
         if (response.message === "This email already exists.") {
+            setSpinnerRun(false); // Hide spinner after API call
             setError('Email is already registered with us. Try Signing in.');
             return;
         }
         if (response.status === 200) {
+            setSpinnerRun(false); // Hide spinner after API call
             setAnimation(true);
             animationOFF();
             setDone(true);
@@ -168,9 +172,14 @@ const Signup: React.FC = () => {
                                                     </div>
                                                     {/* Display Error Messages */}
                                                     {error && <p className="error-message">{error}</p>}
-                                                    <button type="button" className="submit" onClick={submit}>
-                                                        Sign up
-                                                    </button>
+                                                    {!spinnerRun ? (
+                                                        <button type="button" className="submit" onClick={submit}>
+                                                            Sign up
+                                                        </button>
+                                                    ) : (
+                                                        <Spinner />
+                                                    )}
+
                                                 </form>
                                                 <p className="account">
                                                     Already have an account? <span onClick={() => setIsOpenLogin(true)}>Login</span>

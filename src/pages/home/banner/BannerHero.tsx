@@ -8,10 +8,10 @@ const BannerHero = () => {
             <div className="container"> {/* Wrapper for layout and centering */}
                 {/* Content with animation using AOS */}
                 <div data-aos="fade-left" data-aos-delay="100" data-aos-duration="800">
-                    <h1>Get Started</h1> {/* Main heading */}
+                    <h1>Your AI Coach to Ace Consulting Case Interviews</h1> {/* Main heading */}
                     <p>
                         {/* Description paragraph */}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, ipsa dolore? Fugit quaerat omnis accusamus doloremque voluptas nulla, assumenda necessitatibus, fugiat hic natus enim dolor rem, iure magni doloribus tenetur?
+                        Practice live, AI-driven mock interviews anytime, get real-time feedback, and land your dream consulting job.
                     </p>
                 </div>
             </div>

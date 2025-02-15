@@ -1,51 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './style.scss';
-
-import user from '../../../assets/testimonials_1.png';
-import user2 from '../../../assets/testimonials_2.png';
-import user3 from '../../../assets/testimonials_3.png';
-import user4 from '../../../assets/testimonials_4.png';
-import user5 from '../../../assets/testimonials_5.png';
-import user6 from '../../../assets/testimonials_6.png';
+import video from "../../../assets/Testimonial.mp4"
 
 // Testimonials data
 const testimonials = [
     {
-        quote: "Really good design/documentation, pretty much everything is nicely setup. Support team is very responsive to problems. Highly recommended to everyone! I’m your fan already",
-        name: "Andreea Gilbert",
-        title: "CEO / XYZ Company",
-        image: user,
+        text: "Anvesha Dash, IIM Bangalore",
+        video: video,
     },
     {
-        quote: "This is an example page. It’s different from a blog post because it will stay in one place and will show up in your site navigation (in most themes).",
-        name: "Alejandra Blend",
-        title: "Managing Director RRC Co.",
-        image: user2,
+        text: "Anvesha Dash, IIM Bangalore",
+        video: video,
     },
     {
-        quote: "Highly recommended to everyone! I’m your fan already. Really good design/documentation, pretty much everything is nicely setup. Support team is very responsive to problems.",
-        name: "Adam Jonathon",
-        title: "CEO, Tech Company",
-        image: user3,
+        text: "Anvesha Dash, IIM Bangalore",
+        video: video,
     },
     {
-        quote: "Really good design/documentation, pretty much everything is nicely setup. Support team is very responsive to problems. Highly recommended to everyone! I’m your fan already",
-        name: "Andreea Gilbert",
-        title: "CEO / XYZ Company",
-        image: user4,
+        text: "Anvesha Dash, IIM Bangalore",
+        video: video,
     },
-    {
-        quote: "This is an example page. It’s different from a blog post because it will stay in one place and will show up in your site navigation (in most themes).",
-        name: "Alejandra Blend",
-        title: "Managing Director RRC Co.",
-        image: user5,
-    },
-    {
-        quote: "Highly recommended to everyone! I’m your fan already. Really good design/documentation, pretty much everything is nicely setup. Support team is very responsive to problems.",
-        name: "Adam Jonathon",
-        title: "CEO, Tech Company",
-        image: user6,
-    },
+
 ];
 
 const Testimonials: React.FC = () => {
@@ -57,7 +32,7 @@ const Testimonials: React.FC = () => {
     useEffect(() => {
         const updateItemsPerPage = () => {
             if (window.innerWidth > 1024) {
-                setItemsPerPage(3);
+                setItemsPerPage(4);
             } else if (window.innerWidth > 768) {
                 setItemsPerPage(2);
             } else {
@@ -89,8 +64,7 @@ const Testimonials: React.FC = () => {
         <div className="testimonials" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
             <div className="container">
                 <div className="title">
-                    <h1>Our Happy Customers</h1>
-                    <p>Words of praise by our valuable customers</p>
+                    <h1>Here’s what CasePreppers are saying</h1>
                 </div>
                 <div
                     className="carouselItems"
@@ -100,16 +74,10 @@ const Testimonials: React.FC = () => {
                     {testimonials.map((item, index) => (
                         <div className="carouselItem" key={index}>
                             <div className="body">
-                                <p>{item.quote}</p>
+                                <video src={item.video} controls></video>
                             </div>
                             <div className="footer">
-                                <div className="image">
-                                    <img src={item.image} alt={item.name} />
-                                </div>
-                                <div className="text">
-                                    <h2>{item.name}</h2>
-                                    <p>{item.title}</p>
-                                </div>
+                                <p>{item.text}</p>
                             </div>
                         </div>
                     ))}

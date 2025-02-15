@@ -10,6 +10,7 @@
         font-size: 22px;
         text-transform: uppercase;
         margin-bottom: 20px;
+
         @include sm {
             font-size: 35px;
 
@@ -61,5 +62,49 @@
             font-size: 16px;
         }
     }
-}
 
+    .answer {
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+            &.listNone {
+                list-style: none;
+            }
+            li {
+                margin: 10px 0px;
+                span {
+                    font-weight: 700;
+                    color: #000;
+                }
+            }
+        }
+
+        .groupText {
+            margin-bottom: 15px;
+            h2 {
+                font-size: 22px;
+                font-weight: 700;
+            }
+            p {
+                color: var(--grey-color);
+                font-size: 16px;
+                margin: 10px;
+            }
+
+        }
+
+        p {
+            color: #000;
+            font-size: 17px;
+            span {
+                font-weight: 700;
+                color: #000;
+            }
+            a {
+                color:var(--primary);
+                text-decoration: underline !important;
+            }
+        }
+
+    }
+}

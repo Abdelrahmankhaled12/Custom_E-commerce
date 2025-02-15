@@ -1,0 +1,45 @@
+@import '../../../mixins.scss';
+
+.trusted {
+    padding: 60px 0px;
+    overflow: hidden;
+
+    .container {
+        .title {
+            text-align: center;
+            line-height: 1.5;
+            h1 {
+                color: var(--primary);
+                font-size: 30px;
+                text-transform: initial;
+                @include sm {
+                    font-size: 45px;
+                }
+            }
+        }
+        .images {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
+            margin-top: 50px;
+            @include sm {
+                grid-template-columns: 1fr 1fr;
+            }
+            .group {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+                @include md {
+                    grid-template-columns: 1fr 1fr 1fr 1fr;
+                }
+                img {
+                    max-width: 80px;
+                    border-radius: 5px;
+                    display: block;
+                    margin: auto;
+                }
+            }
+        }
+    }
+}
+

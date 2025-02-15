@@ -1,7 +1,7 @@
 @import '../../../mixins.scss';
 
 .contact {
-    padding: 70px 0px 10px;
+    padding: 70px 0px 80px;
     overflow: hidden;
     .grid {
         display: grid;
@@ -25,27 +25,18 @@
 
             p {
                 color: #6F818C;
-                font-size: 16px;
+                font-size: 17px;
                 margin: 15px 0px 0px;
                 line-height: 1.5;
             }
 
             .social {
-                margin: 20px 0px;
-
-                @include sm {
-                    margin: 40px 0px 60px;
-                }
+                margin: 10px 0px;
 
                 .box {
                     display: flex;
                     align-items: center;
                     gap: 10px;
-                    margin: 10px 0px;
-
-                    @include sm {
-                        margin: 20px 0px;
-                    }
 
                     p {
                         color: var(--grey-color);

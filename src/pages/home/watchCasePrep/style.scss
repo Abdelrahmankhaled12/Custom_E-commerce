@@ -1,0 +1,36 @@
+@import '../../../mixins.scss';
+
+.watchCasePrep {
+    padding: 60px 0px;
+    overflow: hidden;
+    background-color: #F5F5FD;
+
+    .container {
+        .title {
+            text-align: center;
+            line-height: 1.5;
+            h1 {
+                color: var(--primary);
+                font-size: 30px;
+                text-transform: initial;
+                @include sm {
+                    font-size: 45px;
+                }
+            }
+        }
+        .video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            iframe {
+                border-radius: 20px;
+                width: 100%;
+                @include sm {
+                    width: 80%;
+                }
+            }
+        }
+    }
+}
+

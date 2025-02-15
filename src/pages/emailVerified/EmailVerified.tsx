@@ -11,10 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '../../store';
 
 
-/**
- * NotFoundPage Component
- * This component renders a 404 Not Found page with a message and a button to navigate back to the homepage.
- */
 const STORAGE_KEYS = {
     LOGIN: "login",
     DATA: "data",
@@ -64,7 +60,6 @@ const EmailVerified = () => {
             dispatch(setUserData(response.data));
             sessionStorage.setItem(STORAGE_KEYS.LOGIN, "true");
             sessionStorage.setItem(STORAGE_KEYS.DATA, JSON.stringify(response.data));
-            // navigate("/");
         } catch (error) {
             console.error("Failed to fetch user data:", error);
             alert("Login failed. Please try again.");

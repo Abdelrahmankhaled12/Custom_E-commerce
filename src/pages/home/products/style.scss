@@ -9,7 +9,10 @@
 
         h2 {
             color: var(--primary);
-            font-size: 40px;
+            font-size: 30px;
+            @include sm {
+                font-size: 40px;
+            }
         }
     }
 
@@ -33,6 +36,9 @@
             background-color: #ffffff;
             padding: 20px 15px 5px;
             border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
 
             h3 {
                 color: #000000;

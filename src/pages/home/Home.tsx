@@ -5,7 +5,6 @@ import Works from './works/Works';
 import Products from './products/Products';
 import Testimonials from './testimonials/Testimonials';
 import Faqs from './faq/Faqs';
-import Team from './team/Team';
 import Contact from './contact/Contact';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { userData } from '../../utils';
@@ -13,6 +12,8 @@ import { setLoginStatus, setUserData } from '../../store/login';
 import { AppDispatch } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '../../store';
+import WatchCasePrep from './watchCasePrep/WatchCasePrep';
+import Trusted from './trusted/Trusted';
 
 const STORAGE_KEYS = {
     LOGIN: "login",
@@ -47,7 +48,6 @@ const Home: React.FC = () => {
             dispatch(setUserData(response.data));
             sessionStorage.setItem(STORAGE_KEYS.LOGIN, "true");
             sessionStorage.setItem(STORAGE_KEYS.DATA, JSON.stringify(response.data));
-            // navigate("/");
         } catch (error) {
             console.error("Failed to fetch user data:", error);
             alert("Login failed. Please try again.");
@@ -61,8 +61,9 @@ const Home: React.FC = () => {
             <Works />
             <Products />
             <Testimonials />
+            <WatchCasePrep />
+            <Trusted />
             <Faqs />
-            <Team />
             <Contact />
             <Footer />
         </Effect>

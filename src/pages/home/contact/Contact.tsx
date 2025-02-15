@@ -1,6 +1,5 @@
 // Import FontAwesome icons for social and contact information
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-import { faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 // Import custom styles
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,33 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Define the Contact component
 const Contact = () => {
     return (
-        <section className="contact"> {/* Main container for the Contact section */}
-            <div className="container"> {/* Wrapper to center and define layout */}
+        <section className="contact"> 
+            <div className="container"> 
                 <div className="grid">
                     <div className="partOne" data-aos="fade-left" data-aos-delay="100" data-aos-duration="800">
-                        <h1>Let’s Get in Touch</h1> {/* Title for the section */}
+                        <h1>Get in Touch</h1> 
                         <p>
-                            {/* Short description */}
-                            Get in Touch with Us for Expert Agricultural Solutions, Personalized Support, and Innovative Strategies.
+                            If you’re looking to get a bulk deal for your college, drop us an email at
                         </p>
-                        <div className="social"> {/* Contact details with icons */}
-                            <div className="box"> {/* Email box */}
+                        <div className="social"> 
+                            <div className="box"> 
                                 <div className="icon">
-                                    <FontAwesomeIcon icon={faEnvelope} /> {/* Email icon */}
+                                    <FontAwesomeIcon icon={faEnvelope} /> 
                                 </div>
-                                <p>caseprep@gmail.com</p> {/* Email address */}
+                                <p> start@caseprep.co</p> 
                             </div>
-                            <div className="box"> {/* Phone box */}
+                        </div>
+                        <p>
+                            For any queries or support, write to us at
+                        </p>
+                        <div className="social"> 
+                            <div className="box">
                                 <div className="icon">
-                                    <FontAwesomeIcon icon={faPhone} /> {/* Phone icon */}
+                                    <FontAwesomeIcon icon={faEnvelope} /> 
                                 </div>
-                                <p>+1 (123) 456 - 789</p> {/* Phone number */}
-                            </div>
-                            <div className="box"> {/* Location box */}
-                                <div className="icon">
-                                    <FontAwesomeIcon icon={faLocationDot} /> {/* Location icon */}
-                                </div>
-                                <p>794 McCallister St, San Francisco, 94102</p> {/* Address */}
+                                <p>support@caseprep.co</p> 
                             </div>
                         </div>
                     </div>
