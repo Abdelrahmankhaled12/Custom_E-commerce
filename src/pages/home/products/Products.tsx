@@ -125,36 +125,39 @@ const Products: React.FC = () => {
                     data-aos-delay={(index + 1) * 100}
                     data-aos-duration="800"
                   >
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    <h5>Get Interactions</h5>
+                    <div>
+                      <h3>{product.name}</h3>
+                      <p>{product.description}</p>
+                    </div>
+                    <div>
+                      <h5>Get Interactions</h5>
+                      {/* Dropdown for selecting combo */}
+                      <select
+                        value={counters[index]}
+                        onChange={(e) => handleCounterChange(index, e.target.value)}
+                        aria-label={`Select interactions for ${product.name}`}
+                      >
+                        {product.interactions_price_combos.map((combo, comboIndex) => (
+                          <option key={comboIndex} value={comboIndex}>
+                            {combo.number}
+                          </option>
+                        ))}
+                      </select>
+                      {
+                        countryIP?.countryIpData?.country === "India" ? (
+                          <span>For Rs. {selectedCombo?.price_inr || 0}</span>
+                        ) : (
+                          <span>For USD. {selectedCombo?.price_usd || 0}</span>
+                        )
+                      }
+                      <button
+                        onClick={() => submitGetNow(product, counters[index])}
+                        className="getNow"
+                      >
+                        Get Now
+                      </button>
+                    </div>
 
-                    {/* Dropdown for selecting combo */}
-                    <select
-                      value={counters[index]}
-                      onChange={(e) => handleCounterChange(index, e.target.value)}
-                      aria-label={`Select interactions for ${product.name}`}
-                    >
-                      {product.interactions_price_combos.map((combo, comboIndex) => (
-                        <option key={comboIndex} value={comboIndex}>
-                          {combo.number}
-                        </option>
-                      ))}
-                    </select>
-                    {
-                      countryIP?.countryIpData?.country === "India" ? (
-                        <span>For Rs. {selectedCombo?.price_inr || 0}</span>
-                      ) : (
-                        <span>For USD. {selectedCombo?.price_usd || 0}</span>
-                      )
-                    }
-
-                    <button
-                      onClick={() => submitGetNow(product, counters[index])}
-                      className="getNow"
-                    >
-                      Get Now
-                    </button>
                   </div>
                 );
               })}

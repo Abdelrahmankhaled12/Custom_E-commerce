@@ -6,6 +6,7 @@ import icon from '../../assets/google.png';
 import { AppDispatch } from "../../store";
 import { setLoginStatus, setUserData } from "../../store/login";
 import { loginAPi, loginGoogle } from "../../utils/index";
+import { Spinner } from "..";
 
 // Firebase configuration (securely load credentials from environment variables)
 
@@ -20,6 +21,7 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
   const [email, setEmail] = useState<string>(''); // Email input state
   const [password, setPassword] = useState<string>(''); // Password input state
   const [error, setError] = useState<string | null>(null); // Error message state
+  const [spinnerRun, setSpinnerRun] = useState<boolean>(false); // Spinner state
 
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -30,25 +32,27 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinnerRun(true); // Show spinner during API call
     setError(null); // Reset error state
-
     const response = await loginAPi({ email, password });
-
     if (response.status === 200) {
       dispatch(setLoginStatus(true));
       dispatch(setUserData(response.data));
-      sessionStorage.setItem('login', "true"); 
-      sessionStorage.setItem("data", JSON.stringify(response.data));  
+      sessionStorage.setItem('login', "true");
+      sessionStorage.setItem("data", JSON.stringify(response.data));
+      setSpinnerRun(false); // Hide spinner after API call
       closeModel();
       navigate(nav);
       return;
     }
 
     if (response.status === 422) {
+      setSpinnerRun(false); // Hide spinner after API call
       setError(response?.message)
       return;
     }
 
+    setSpinnerRun(false); // Hide spinner after API call
     setError(response?.message)
     return;
 
@@ -116,19 +120,20 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
             {/* Error Message */}
             {error && <p className="error-message">{error}</p>}
 
-            <button type="submit" className="btn">
-              Login
-            </button>
+            {!spinnerRun ? (
+              <button type="submit" className="btn">
+                Login
+              </button>
+            ) : (
+              <Spinner />
+            )}
           </form>
-
           {/* Sign-Up Link */}
           <p className="account">
             Don't have an account?{" "}
             <span onClick={() => navigate("/signup")}>Sign up</span>
           </p>
-
           <div className="or">Or</div>
-
           {/* Google Sign-In Button */}
           <button type="button" className="signGoogle" onClick={signInWithGoogle}>
             <img src={icon} alt="Google Logo" />

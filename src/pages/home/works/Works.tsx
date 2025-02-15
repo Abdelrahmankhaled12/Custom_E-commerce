@@ -2,7 +2,7 @@
 import './style.scss';
 // Import the image used in the component
 import image from '../../../assets/works.svg';
-import { LoginUser } from '../../../components';
+import { LoginUser, Spinner } from '../../../components';
 import { useState } from 'react';
 import { FREE_TRIAL } from '../../../utils';
 import { RootState } from '../../../store';
@@ -15,26 +15,33 @@ const Works = () => {
     const [isOpenLogin, setIsOpenLogin] = useState(false);
     const login = useSelector((state: RootState) => state.login); // Access login state from Redux
     const navigate = useNavigate(); // Initialize navigation
+    const [spinnerRun, setSpinnerRun] = useState<boolean>(false); // Spinner state
 
 
     const submitHandle = () => {
+        setSpinnerRun(true); // Show spinner during API call
         if (login.loginStatus) {
             FREE_TRIAL({
                 "user_id": login.userData.user_id
             }).then((res) => {
                 if (res.message === "You already have a free trial before.") {
                     Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "You already have a free trial before!",
+                        iconHtml: "🤔",
+                        title: "Déjà vu...",
+                        text: "You've had your free trial",
+                        confirmButtonText: "I Want More!"
                     });
+                    setSpinnerRun(false); // Hide spinner after API call
                     return;
                 }
                 if (res.status === 200) {
+                    setSpinnerRun(false); // Hide spinner after API call
                     navigate("/success-payment")
                 }
             })
         } else {
+            setSpinnerRun(false); // Hide spinner after API call
+
             setIsOpenLogin(true)
         }
     }
@@ -54,10 +61,14 @@ const Works = () => {
                                 {/* Additional paragraph for more explanation */}
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium fugiat voluptas rerum repellat illo voluptatum aliquid deleniti voluptatibus, quaerat veniam qui alias tempore! Animi nihil ipsa possimus facere incidunt quisquam?
                             </p>
-                            <button onClick={() => submitHandle()}>
-                                {/* Button for user action */}
-                                Try for free now
-                            </button>
+                            {!spinnerRun ? (
+                                <button onClick={() => submitHandle()}>
+                                    {/* Button for user action */}
+                                    Try for free now
+                                </button>
+                            ) : (
+                                <Spinner />
+                            )}
                         </div>
                         <div className="image" data-aos="fade-up" data-aos-delay="150" data-aos-duration="800"> {/* Image section */}
                             <img src={image} alt="Illustration of how it works" />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";  // Import hooks from react-router-dom
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import logo from '../../assets/Logo.png';
@@ -14,13 +14,20 @@ import './style.scss';
 const Header: React.FC = () => {
   const navigate = useNavigate(); // Initialize navigation
   const login = useSelector((state: RootState) => state.login); // Access login state from Redux
+  const path = useLocation();  // Get current location using useLocation hook
 
   const handleButtonClick = () => {
     const section = document.getElementById("works");
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+    console.log(path.pathname)
+    if (path.pathname === "/") {
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate("/")
     }
   };
+
 
   return (
     <header id="header"> {/* Main header container */}
