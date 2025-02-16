@@ -10,6 +10,13 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2/dist/sweetalert2.js'; // Importing SweetAlert2 for displaying alerts
 
+const handleButtonClick = () => {
+    const section = document.getElementById("products");
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+};
+
 // Define the main functional component 'Works'
 const Works = () => {
     const [isOpenLogin, setIsOpenLogin] = useState(false);
@@ -29,7 +36,11 @@ const Works = () => {
                         iconHtml: "🤔",
                         title: "Déjà vu...",
                         text: "You've had your free trial",
-                        confirmButtonText: "I Want More!"
+                        confirmButtonText: "I’m ready to purchase!"
+                    }).then(() => {
+                        setTimeout(() => {
+                            handleButtonClick()
+                        }, 500);
                     });
                     setSpinnerRun(false); // Hide spinner after API call
                     return;

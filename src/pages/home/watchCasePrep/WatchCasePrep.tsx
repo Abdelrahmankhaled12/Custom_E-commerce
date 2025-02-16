@@ -5,7 +5,6 @@ import './style.scss';
 
 const WatchCasePrep: React.FC = () => {
 
-
     return (
         <div className="watchCasePrep" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
             <div className="container">

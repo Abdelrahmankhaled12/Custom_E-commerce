@@ -83,7 +83,7 @@ const EmailVerified = () => {
                                     <h2>Email Verified</h2>
                                     <p>Your email address was successfully verified</p>
                                     <button onClick={() => navigate("/")}>
-                                        Home Page
+                                        Start Preparing Now!
                                     </button>
                                 </div>
                             </div>

@@ -1,51 +1,115 @@
 import React, { useState } from 'react'; // React import
 import './style.scss'; // SCSS styling
-import ContactNumber from './ContactNumber';
-import CurrentStatus from './CurrentStatus';
+import ContactNumber from './ContactNumber'; // Reusable component for phone number input
+import CurrentStatus from './CurrentStatus'; // Reusable component for current status input
+import { PROFILE_UPDATE } from '../../../utils'; // API utility for profile updates
+import CountryInput from './CountryInput'; // Reusable component for country selection
+import { useSelector } from 'react-redux'; // Redux hook for accessing state
+import { RootState } from '../../../store'; // Root state type for Redux store
+import Swal from 'sweetalert2/dist/sweetalert2.js'; // SweetAlert2 for displaying alerts
+import { setUserData } from '../../../store/login'; // Redux action for updating user data
+import { useDispatch } from 'react-redux'; // Redux hook for dispatching actions
+import { AppDispatch } from '../../../store'; // Type for Redux dispatch
+import { Spinner } from '../../../components';
 
 /**
  * ProfileBody Component
- * Collects user information for their profile, including personal, educational, and professional details.
+ * 
+ * This component collects and updates user profile information, including personal, educational, 
+ * and professional details. It uses React hooks for state management and Redux for global state.
  */
-
 const ProfileBody: React.FC = () => {
     // State management for form fields
-    const [name, setName] = useState<string>(''); // Full name
-    const [currentStatus, setCurrentStatus] = useState<string>(''); // Current status
-    const [phone, setPhone] = useState<string | undefined>(''); // Phone number
-    const [location, setLocation] = useState<string>(''); // Location
-    const [lastCourseCompleted, setLastCourseCompleted] = useState<string>(''); // Last completed course
-    const [experience, setExperience] = useState<string>(''); // Work experience
-    const [currentRole, setCurrentRole] = useState<string>(''); // Current job role
-    const [projectsAndInternships, setProjectsAndInternships] = useState<string>(''); // Projects and internships
-    const [extracurricularActivities, setExtracurricularActivities] = useState<string>(''); // Extracurricular activities
-    const [lastInstitutionAttended, setLastInstitutionAttended] = useState<string>(''); // Last institution attended
-    const [professional, setProfessional] = useState<string>(''); 
-    const [student, setStudent] = useState<string>(''); 
+    const [firstName, setFirstName] = useState<string>(''); // User's first name
+    const [lastName, setLastName] = useState<string>(''); // User's last name
+    const [currentStatus, setCurrentStatus] = useState<string>(''); // User's current status (e.g., student, professional)
+    const [phone, setPhone] = useState<string | undefined>(''); // User's phone number
+    const [city, setCity] = useState<string>(''); // User's city
+    const [lastCourseCompleted, setLastCourseCompleted] = useState<string>(''); // Last course completed by the user
+    const [experience, setExperience] = useState<string>(''); // User's work experience in years
+    const [currentRole, setCurrentRole] = useState<string>(''); // User's current job role
+    const [projectsAndInternships, setProjectsAndInternships] = useState<string>(''); // User's projects and internships
+    const [extracurricularActivities, setExtracurricularActivities] = useState<string>(''); // User's extracurricular activities
+    const [lastInstitutionAttended, setLastInstitutionAttended] = useState<string>(''); // Last institution attended by the user
+    const [professional, setProfessional] = useState<string>(''); // User's professional details (if applicable)
+    const [student, setStudent] = useState<string>(''); // User's student details (if applicable)
+    const [country, setCountry] = useState<string>('india'); // User's selected country
+    const [spinnerRun, setSpinnerRun] = useState<boolean>(false); // Spinner state
+
+    // Redux state and dispatch
+    const login = useSelector((state: RootState) => state.login); // Access logged-in user data from Redux store
+    const dispatch: AppDispatch = useDispatch(); // Redux dispatch function
 
     /**
      * Handles form submission.
-     * Validates inputs and simulates saving the profile data.
+     * Validates required fields and updates the user's profile data via an API call.
+     * Displays a success message using SweetAlert2 upon successful submission.
      */
-    const submit = async () => {
-        if (!name || !currentStatus || !phone) {
+    const handleSubmit = async () => {
+        setSpinnerRun(true); // Show spinner during API call
+
+        // Validate required fields
+        if (!currentStatus || !phone) {
             alert('Please fill in all required fields.');
             return;
         }
-        // Mock API submission logic
-        console.log({
-            name,
-            currentStatus,
-            phone,
-            location,
-            lastInstitutionAttended,
-            lastCourseCompleted,
-            experience,
-            currentRole,
-            projectsAndInternships,
-            extracurricularActivities,
-        });
-        alert('Profile submitted successfully!');
+
+        try {
+            // Call the API to update the profile
+            const response = await PROFILE_UPDATE({
+                token: login.userData.token,
+                f_name: firstName,
+                l_name: lastName,
+                contact: phone,
+                city: city,
+                country: country,
+                current_status: currentStatus,
+                last_institute: lastInstitutionAttended,
+                education: lastCourseCompleted,
+                student_year: student,
+                professional_company: professional,
+                work_ex: experience,
+                role_level: currentRole,
+                projects: projectsAndInternships,
+                extracurriculars: extracurricularActivities,
+            });
+
+            if (response.status === 200) {
+                setSpinnerRun(false); // Show spinner during API call
+                // Update Redux store and session storage with new user data
+                dispatch(setUserData(response.data));
+                sessionStorage.setItem('data', JSON.stringify(response.data));
+                setFirstName("")
+                setLastName("")
+                setCurrentStatus("")
+                setPhone("")
+                setCity("")
+                setLastCourseCompleted("")
+                setExperience("")
+                setCurrentRole("")
+                setProjectsAndInternships("")
+                setLastInstitutionAttended("")
+                setProfessional("")
+                setStudent("")
+                setCountry("india")
+                setExtracurricularActivities("")
+
+                // Display success message
+                Swal.fire({
+                    title: 'Good job!',
+                    text: 'Profile submitted successfully!',
+                    icon: 'success',
+                });
+            }
+        } catch (error) {
+            setSpinnerRun(false); // Show spinner during API call
+            console.error('Error updating profile:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Failed to update profile. Please try again.',
+                icon: 'error',
+            });
+        }
     };
 
     return (
@@ -53,18 +117,32 @@ const ProfileBody: React.FC = () => {
             <div className="container">
                 {/* Profile Form */}
                 <form onSubmit={(e) => e.preventDefault()}>
-                    <h1>User Profile Form</h1>
+                    <h1>Your Profile</h1>
 
-                    {/* Full Name Input */}
+                    {/* First Name Input */}
                     <div className="form-group">
-                        <label htmlFor="fullName">Full Name</label>
+                        <label htmlFor="firstName">First Name</label>
                         <input
                             type="text"
-                            id="fullName"
-                            name="fullName"
-                            placeholder="Enter your full name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            id="firstName"
+                            name="firstName"
+                            placeholder="Enter your first name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Last Name Input */}
+                    <div className="form-group">
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            placeholder="Enter your last name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                             required
                         />
                     </div>
@@ -72,25 +150,25 @@ const ProfileBody: React.FC = () => {
                     {/* Phone Number Input */}
                     <ContactNumber phone={phone} setPhone={setPhone} />
 
-                    {/* Location Input */}
+                    {/* Country Selection Dropdown */}
+                    <CountryInput country={country} setCountry={setCountry} />
+
+                    {/* City Input */}
                     <div className="form-group">
-                        <label htmlFor="location">Location</label>
+                        <label htmlFor="city">City</label>
                         <input
                             type="text"
-                            id="location"
-                            name="location"
-                            placeholder="Enter your location"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
+                            id="city"
+                            name="city"
+                            placeholder="Enter your city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
                             required
                         />
                     </div>
 
                     {/* Current Status Input */}
-                    <CurrentStatus
-                        currentStatus={currentStatus}
-                        setCurrentStatus={setCurrentStatus}
-                    />
+                    <CurrentStatus currentStatus={currentStatus} setCurrentStatus={setCurrentStatus} />
 
                     {/* Last Institution Attended Input */}
                     <div className="form-group">
@@ -120,7 +198,7 @@ const ProfileBody: React.FC = () => {
                         />
                     </div>
 
-                    {/* If You Are a Student, What Year Are You In? Input */}
+                    {/* Student Year Input */}
                     <div className="form-group">
                         <label htmlFor="student">If You Are a Student, What Year Are You In?</label>
                         <input
@@ -134,7 +212,7 @@ const ProfileBody: React.FC = () => {
                         />
                     </div>
 
-                    {/* If You Are a Professional, Where Do You Work? Input */}
+                    {/* Professional Company Input */}
                     <div className="form-group">
                         <label htmlFor="professional">If You Are a Professional, Where Do You Work?</label>
                         <input
@@ -202,11 +280,13 @@ const ProfileBody: React.FC = () => {
                             required
                         ></textarea>
                     </div>
-
-                    {/* Submit Button */}
-                    <button onClick={submit} type="submit">
-                        Submit Your Profile
-                    </button>
+                    {!spinnerRun ? (
+                        <button onClick={handleSubmit} type="submit">
+                            Submit Your Profile
+                        </button>
+                    ) : (
+                        <Spinner />
+                    )}
                 </form>
             </div>
         </div>

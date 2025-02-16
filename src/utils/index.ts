@@ -272,3 +272,56 @@ export const FREE_TRIAL = async (data: any): Promise<any> => {
     });
 };
 
+
+
+// =========================================================================================
+// =========================================================================================
+
+interface ProfileData {
+    token: string,
+    f_name: string,
+    l_name: string,
+    contact: string,
+    city: string,
+    country: string,
+    current_status: string,
+    last_institute: string,
+    education: string,
+    student_year: string,
+    professional_company: string,
+    work_ex: string,
+    role_level: string,
+    projects: string,
+    extracurriculars: string,
+}
+
+interface ProfileResponse {
+    // Define the structure of the response if known
+    [key: string]: any; // Replace with specific keys if the response structure is known
+}
+
+export const PROFILE_UPDATE = async (data: ProfileData): Promise<ProfileResponse> => {
+    return new Promise((resolve, reject) => {
+
+        fetch(URL_API + "/public/api/update-profile", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((jsonData: ProfileResponse) => {
+                resolve(jsonData);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
