@@ -66,7 +66,7 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/'>
       {/* Define application routes */}
       <Routes>
         {/* Home Page */}

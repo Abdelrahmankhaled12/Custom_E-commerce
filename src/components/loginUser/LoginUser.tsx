@@ -30,8 +30,13 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
    * Handles form submission for user login
    */
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    setError(null)
+    if (password.length < 7) {
+      setError('Password must be 8 characters of longer.');
+      return;
+    }
+
     setSpinnerRun(true); // Show spinner during API call
     setError(null); // Reset error state
     const response = await loginAPi({ email, password });
@@ -90,7 +95,7 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
       <div>
         <div className="content">
           {/* Login Form */}
-          <form onSubmit={handleLogin}>
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <input
@@ -121,7 +126,12 @@ const LoginUser: React.FC<LoginUserProps> = ({ isOpen, closeModel, nav }) => {
             {error && <p className="error-message">{error}</p>}
 
             {!spinnerRun ? (
-              <button type="submit" className="btn">
+              <button onClick={() => handleLogin()} className="btn"
+                style={(email.trim() === "" || password.trim() === "") ? {
+                  pointerEvents: "none", // Disable button if inputs are empty
+                  opacity: "0.5", // Reduce button opacity
+                } : {}}
+              >
                 Login
               </button>
             ) : (

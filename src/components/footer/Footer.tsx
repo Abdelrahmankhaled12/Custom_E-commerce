@@ -12,9 +12,9 @@ const Footer = () => {
                         Copyrights © 2024 <span>CasePrep</span> | All Rights Reserved
                     </h3>
                     <div className="links"> {/* Links to footer policies */}
-                        <a href="#">TERMS & CONDITIONS</a>
-                        <a href="#">REFUND POLICY</a>
-                        <a href="#">PRIVACY POLICY</a>
+                        <a href="https://www.caseprep.co/tnc.html">TERMS & CONDITIONS</a>
+                        <a href="https://www.caseprep.co/refund-policy.html">REFUND POLICY</a>
+                        <a href="https://www.caseprep.co/privacy-policy.html">PRIVACY POLICY</a>
                     </div>
                 </div>
             </div>

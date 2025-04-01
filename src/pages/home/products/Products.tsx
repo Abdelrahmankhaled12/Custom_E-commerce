@@ -28,7 +28,7 @@ interface ProductData {
   name: string;
   description: string;
   package_id: string;
-  interactions_price_combos: { number: number; price_inr: number; price_usd: number }[];
+  interactions_price_combos: { number: number; price_inr: number; price_usd: number ; original_price_inr: number ; original_price_usd: number }[];
 }
 
 const Products: React.FC = () => {
@@ -75,7 +75,6 @@ const Products: React.FC = () => {
       })
     );
 
-    sessionStorage.setItem('login', "true");
     sessionStorage.setItem("package", JSON.stringify({
       name: product.name,
       description: product.description,
@@ -145,9 +144,9 @@ const Products: React.FC = () => {
                       </select>
                       {
                         countryIP?.countryIpData?.country === "India" ? (
-                          <span>For Rs. {selectedCombo?.price_inr || 0}</span>
+                          <span>For  <del>Rs. {selectedCombo?.original_price_inr || 0}</del> Rs. {selectedCombo?.price_inr || 0}</span>
                         ) : (
-                          <span>For USD. {selectedCombo?.price_usd || 0}</span>
+                          <span>For <del>USD. {selectedCombo?.original_price_usd || 0}</del> USD. {selectedCombo?.price_usd || 0}</span>
                         )
                       }
                       <button

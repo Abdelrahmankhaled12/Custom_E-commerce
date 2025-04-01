@@ -1,0 +1,139 @@
+
+@import '../../../mixins.scss';
+
+.menu {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.159);
+    height: 100vh;
+    width: 100%;
+    right: 0;
+    top: 0;
+    z-index: 100000000;
+    transform: translateX(-140%);
+    transition: 0.5s;
+    display: block;
+
+    .flex {
+        justify-content: start;
+
+        .content {
+            background-color: #FFFFFF !important;
+            height: 100vh;
+            width: 400px;
+            padding: 20px 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.213);
+                padding: 10px 20px 10px 5px;
+                color: #ffffff;
+                border-bottom: 1px solid #00000023;
+
+                .logo {
+                    img {
+                        width: 250px;
+                    }
+                }
+                button {
+                    background-color: transparent;
+                    border: none;
+                    font-size: 25px;
+                    cursor: pointer;
+                    color: var(--primary);
+                }
+            }
+
+            ul {
+                list-style: none;
+                justify-content: center;
+                padding: 0px 30px;
+
+                li {
+                    cursor: pointer;
+                    position: relative;
+                    transition: 0.5s;
+                    color: #1D2E36;
+                    margin: 20px 0px;
+                    font-size: 25px;
+                    text-align: center;
+
+                    &:hover {
+                        color: var(--primary);
+                    }
+
+                    &.active {
+                        color: var(--primary);
+                        font-weight: 700;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            height: 4px;
+                            width: 15px;
+                            background-color: var(--primary);
+                            bottom: -7px;
+                            right: 0;
+                            border-radius: 10px;
+                        }
+                    }
+                }
+
+                @include md {
+                    display: flex;
+                }
+            }
+            .buttons {        
+                button {
+                    display: block;
+                    width: 90%;
+                    margin: 15px auto;
+                    text-align: center;
+                    padding: 5px;
+                    color: #ffffff;
+                    background-color: var(--primary);
+                    font-size: 19px;
+                    border: 1px solid var(--primary);
+                    border-radius: 8px;
+                    transition: 0.5s;
+                    cursor: pointer;
+                    padding: 8px;
+        
+                    &:hover {
+                        background-color: #ffffff;
+                        color: var(--primary);
+                    }
+                }
+            }
+            .footerMenu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0px 25px;
+                p {
+                    font-size: 20px;
+                    color: #000000;
+                }
+                svg {
+                    color: var(--primary);
+                    font-size: 20px;
+                }
+            }
+        }
+
+    }
+
+    @include md {
+        display: none;
+    }
+
+}
+
+
+.menu_active {
+    transform: translateX(0%);
+}

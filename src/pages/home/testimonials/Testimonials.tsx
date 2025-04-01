@@ -1,26 +1,32 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './style.scss';
-import video from "../../../assets/Testimonial.mp4"
 
 // Testimonials data
 const testimonials = [
     {
-        text: "Anvesha Dash, IIM Bangalore",
-        video: video,
+        text: "Spencer H, Working Professional (US)",
+        video: "https://caseprep.co/videos/Spencer.mp4",
     },
     {
-        text: "Anvesha Dash, IIM Bangalore",
-        video: video,
+        text: "Anvesha D, MBA Student (IIM Bangalore)",
+        video: "https://caseprep.co/videos/Anvesha.mp4",
     },
     {
-        text: "Anvesha Dash, IIM Bangalore",
-        video: video,
+        text: "Yordanka T, MBA Student (Bulgaria)",
+        video: "https://caseprep.co/videos/Yordanka.mp4",
     },
     {
-        text: "Anvesha Dash, IIM Bangalore",
-        video: video,
+        text: "Diego C, Working Professional (US)",
+        video: "https://caseprep.co/videos/Diego.mp4",
     },
-
+    {
+        text: "Aarushi G, Undergraduate student (India)",
+        video: "https://caseprep.co/videos/Aarushi.mp4",
+    },
+    {
+        text: "Maria H, Working Professional (US)",
+        video: "https://caseprep.co/videos/Maria.mp4",
+    },
 ];
 
 const Testimonials: React.FC = () => {
@@ -74,7 +80,7 @@ const Testimonials: React.FC = () => {
                     {testimonials.map((item, index) => (
                         <div className="carouselItem" key={index}>
                             <div className="body">
-                                <video src={item.video} controls></video>
+                                <video src={item.video} controls controlsList="nodownload"></video>
                             </div>
                             <div className="footer">
                                 <p>{item.text}</p>

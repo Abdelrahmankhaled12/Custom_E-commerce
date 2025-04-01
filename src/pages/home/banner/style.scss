@@ -16,7 +16,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.6);
     }
 
     .container {
@@ -28,16 +28,19 @@
 
         h1 {
             color: #ffffff;
-            font-size: 30px;
+            font-size: 40px;
             @include sm {
                 font-size: 45px;
+            }
+            @include md {
+                font-size: 70px;
             }
         }
         p {
             color: #ffffffd7;
             font-size: 20px;
-            @include md {
-                width: 750px;
+            @include sm {
+                font-size: 30px;
             }
         }
     }

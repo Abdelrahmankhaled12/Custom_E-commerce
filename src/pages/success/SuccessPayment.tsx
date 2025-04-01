@@ -53,7 +53,7 @@ const SuccessPayment: React.FC = () => {
                             {
                                 file_path ? (
                                     <>
-                                        <h3>Your transaction has been done <span>successflly.</span></h3>
+                                        <h2>We have shared the access codes for your interviews and steps to follow to  <span>{login.userData.email}</span></h2>
                                         <p>You can download the invoice pdf from here</p>
                                     </>
                                 ) : (

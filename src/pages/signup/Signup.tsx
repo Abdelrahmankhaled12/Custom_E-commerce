@@ -55,10 +55,11 @@ const Signup: React.FC = () => {
             return;
         }
 
-        if (password.length < 6) {
+        if (password.length < 8) {
             setError('Password must be at least 8 characters.');
             return;
         }
+
         setSpinnerRun(true); // Show spinner during API call
 
         const response = await register({ f_name: firstName, l_name: lastName, email, password });
@@ -182,7 +183,8 @@ const Signup: React.FC = () => {
 
                                                 </form>
                                                 <p className="account">
-                                                    Already have an account? <span onClick={() => setIsOpenLogin(true)}>Login</span>
+                                                    Already have an account? <span onClick={() => setIsOpenLogin(true)}
+                                                    >Login</span>
                                                 </p>
                                                 <div className="or">Or</div>
                                                 <button type="button" className="signGoogle" onClick={handleGoogleLogin}>
